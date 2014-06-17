@@ -6,7 +6,7 @@ L.tileLayer('img/map/{z}/{x}/{y}.jpg', {
     maxZoom: 18
 }).addTo(map);
 
-var MyControl = L.Control.extend({
+var CenterMapControl = L.Control.extend({
     options: {
         position: 'bottomright'
     },
@@ -22,13 +22,13 @@ var MyControl = L.Control.extend({
     }
 });
 
-map.addControl(new MyControl());
+map.addControl(new CenterMapControl());
 $(".center-text").text("Zentrieren");
 
 map.locate({setView: true});
 
 navigator.geolocation.getCurrentPosition(onLocationFound, onLocationError);
-navigator.geolocation.watchPosition(onLocationUpdated);
+var curPos = navigator.geolocation.watchPosition(onLocationUpdated);
 
 function onLocationFound(position) {
     var radius = position.coords.accuracy / 2;
@@ -56,4 +56,12 @@ function centerMap() {
     map.setView(marker.getLatLng());
 }
 
+function watchPosition() {
+    curPos = navigator.geolocation.watchPosition(onLocationUpdated);
+}
+
 map.on('locationerror', onLocationError);
+
+document.addEventListener("pause", function () {navigator.geolocation.clearWatch(curPos);}, false);
+
+document.addEventListener("resume", function () {watchPosition();}, false);
