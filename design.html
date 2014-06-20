@@ -3,7 +3,246 @@
 <head>
 	<meta http-equiv="content-type" content="text/html" />
 	<meta name="author" content="Hendrik Niemann" />
-    <link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/grossstadtjungle2/source/master/css/style.css" />
+	<style type="text/css">
+body  {
+    background-color: #f0f0f0;
+    font-family: Droid Sans, Arial;
+    padding: 0;
+    margin: 0;
+    color: #303030;
+}
+
+#app-frame {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    left: 0;
+}
+
+/* Side Menu */
+#side-menu {
+    position: fixed;
+    width: 80vw;
+    height: 100vh;
+    box-sizing: border-box;
+    border-right: solid 1px #ccc;
+    left: -80vw;
+    background-color: #f0f0f0;
+    z-index: 100;
+}
+
+#side-menu > a {
+    display: block;
+    box-sizing: border-box;
+    color: #000;
+    width: 100%;
+    padding: 2vh 2vw;
+    font-size: 4vh;
+    border-bottom: solid 1px #ccc;
+    box-shadow: inset 0 0 3vh #e0e0e0;
+}
+
+#side-menu > a:hover {
+    box-shadow: inset 0 0 3vh #d0d0d0;
+}
+
+/* Topbar */
+#top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8vh;
+    background: #f0f0f0;
+    border-bottom: solid 1px #ccc;
+    text-align: center;
+    font-size: 5vh;
+    padding-top: 2vh;
+    font-family: Arial;
+    font-weight: bold;
+}
+
+#top-bar > .quadrat {
+    vertical-align: super;
+    background-color: #D00;
+    font-size: 2vh;
+    font-weight: bold;
+    color: #FFF;
+    padding: 0 2px;
+    font-family: Verdana;
+}
+
+/* Menu */
+#menu-click {
+    position: absolute;
+    height: 8vh;
+    width: 6vh;
+    border-right: solid 2px #ddd;
+    top: 1vh;
+    left: 0;
+    background-color: #f0f0f0;
+}
+
+#menu-icon, #menu-icon:after, #menu-icon:before {
+    position:absolute;
+    width:8vh;
+    height:1vh;
+    background:#606060;
+}
+
+#menu-icon {
+    display:block;
+    text-indent:-999em;
+    left:-4vh;
+    top:3.5vh;
+}
+
+#menu-icon:after, #menu-icon:before {
+    content:"\00a0";
+    left:0;
+}
+
+#menu-icon:before {
+    top:-2vh;
+}
+
+#menu-icon:after {
+    top:2vh;
+}
+
+/* Options */
+#option-click {
+    position: absolute;
+    height: 8vh;
+    width: 6.5vh;
+    border-left: solid 2px #ddd;
+    top: 1vh;
+    right: 0;
+    background-color: #f0f0f0;
+}
+
+#option-icon, #option-icon:after, #option-icon:before {
+    position:absolute;
+    width:1.5vh;
+    height:1vh;
+    background:#606060;
+}
+
+#option-icon {
+    display:block;
+    text-indent:-999em;
+    right:2.5vh;
+    top:3.5vh;
+}
+
+#option-icon:after, #option-icon:before {
+    content:"\00a0";
+    left:0;
+}
+
+#option-icon:before {
+    top:-2vh;
+}
+
+#option-icon:after {
+    top:2vh;
+}
+
+/* Content */
+
+#dynamic-cont {
+    margin: 10vh 0 0 0;
+    height: 90vh;
+    width: 100vw;
+    font-size: 3vh;
+    padding: 0;
+}
+
+#dynamic-cont > h1 {
+    font-size:  4vh;
+    display: block;
+    border-bottom: solid 2px #ccc;
+    padding: 2vh 4vw 1vh 4vw;
+    font-weight: normal;
+    margin: 0;
+}
+
+#dynamic-cont > p {
+    padding: 2vh 4vw;
+    margin: 0;
+}
+
+/* Interaction Bar*/
+
+#interaction-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 2px solid #ccc;
+    background-color: #f0f0f0;
+    padding: 1vh 0;
+}
+
+/* Buttons */
+.button-single, .button-double {
+    background-color: #ccc;
+    border: solid 1px #b0b0b0;
+    padding: 1vh 1vw;
+    height: auto;
+    margin: 1vh 3%;
+    color: #606060;
+    text-align: center;
+    vertical-align: central;
+    font-size: 3vh;
+    box-sizing: border-box;
+}
+
+.button-single {
+    width: 94%;
+}
+
+.button-double {
+    width: 45%;
+    float: left;
+}
+
+.button-double:first-child {
+    margin-right: 2%;
+}
+
+.button-double:last-child {
+    margin-left: 2%;
+}
+
+/* Meldung */
+#popup {
+    position: absolute;
+    color: #f0f0f0;
+    width: 70vw;
+    height: auto;
+    top: 35vh;
+    left: 15vw;
+    background-color: #303030;
+    border: solid 2px #404040;
+    padding: 0;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 1vw 1vw rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-size: 3vh;
+    display: none;
+}
+
+#popup > p {
+    margin: 3vh 1vw;
+    display: block;
+}
+
+#popup > .button-double {
+    width: 44.5%; /* Keine Ahnung was hier abfuckt... vielleicht der 1px border... */
+}
+</style>
 	<title>Designtest</title>
 </head>
 
