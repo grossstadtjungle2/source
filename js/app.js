@@ -97,16 +97,32 @@ var menu = function() {
 }();
 
 var display_map = function() {
-    $('#cont').addClass('hide');
+    $('#text-cont').addClass('hide');
+    $('#interaction-bar').addClass('hide');
     $('#map').removeClass('hide');
 };
 
 var display_content = function(cont) {
-    $('#cont').html(cont);
+    cont && $('#text-cont').html(cont);
     $('#map').addClass('hide');
-    $('#cont').removeClass('hide');
+    $('#text-cont').removeClass('hide');
+    $('#interaction-bar').removeClass('hide');
 };
 
+var current_tour = tour_data;
+var display_quiz = function(id) {
+    // Quick and dirty, da wir kein Exception Handling haben nur zum debuggen...
+    if (!current_tour)
+        throw 'Es ist keine Tour ausgewählt!';
+    if (!(quiz = current_tour.points[id]))
+        throw 'Ein Rätsel mit dieser ID existiert in der ausgewählten Tour nicht!';
+    var htm = '<h1>' + quiz.title + '</h1>';
+    htm += '<p>' + quiz.question + '</p>';
+    htm += '<input type="text" placeholder="Antwort" />';
+    display_content(htm);
+}
+
+// Menü triggern
 $('#menu-click').click(function() {
     if (!menu.isShown()) {
         menu.show();
@@ -117,3 +133,18 @@ $('#app-frame').click(function() {
         menu.hide();
     }
 });
+
+// Menü Funktionen
+$('.back2map').click(function(e) {
+    e.preventDefault();
+    menu.hide();
+    display_map();
+});
+$('#impressum_click').click(function() {
+    menu.hide();
+    display_content('<h1>Impressum</h1><p>Diese App wurde von Studenten des Studiengangs Angewandte Informatik'+
+                    ' Betriebliches Informationsmanagement Jahrgang 2013 im Rahmen der Projektmanagement'+
+                    ' Vorlesung erstellt.</p>');
+});
+
+display_quiz(0);

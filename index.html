@@ -31,7 +31,7 @@
         <nav id="side-menu">
             <a>Tour abbrechen</a>
             <a class="back2map">Zurück zur Karte</a>
-            <a>Impressum</a>
+            <a id="impressum_click">Impressum</a>
         </nav>
         <div id="app-frame">
             <div id="top-bar">
@@ -44,12 +44,7 @@
                 <div id="map" class="">
 
                 </div>
-                <div id="quiz" class="hide">
-                    <h1>Der Paradeplatz</h1>
-                    <p>
-                        Herzlich willkommen auf dem Paradeplatz. Auf der Mitte des Platzes ist ein Brunnen.<br />
-                        Wie viele Engel erkennst du?
-                    </p>
+                <div id="text-cont" class="hide">
                 </div>
             </div>
             <div id="interaction-bar" class="hide">
@@ -57,9 +52,9 @@
                 <div id="ueberspringen" class="button-double">Rätsel überspringen</div>
             </div>
             <div id="popup">
-                <p>Wollen sie dieses Rätsel wirklich überspringen?</p>
+                <p></p>
                 <div class="button-double">Abbrechen</div>
-                <div class="button-double">Überspringen</div>
+                <div class="button-double"></div>
             </div>
         </div>
         
@@ -70,19 +65,12 @@
         <script src="lib/jquery/jquery.js" type="text/javascript"></script>
         <script src="lib/leaflet/leaflet.js" type="text/javascript"></script>
         <script src="lib/leaflet/leaflet-src.js" type="text/javascript"></script>
+        <script src="js/data.js" type="text/javascript"></script>
         <script src="js/map.js" type="text/javascript"></script>
         <script src="js/app.js" type="text/javascript"></script>
         
         <script type="text/javascript">
             //app.initialize();
             mapControl.initialize();
-            
-            $('.back2map').click(function(e) {
-                e.preventDefault();
-                $('#map').removeClass('hide');
-                $('#interaction-bar').addClass('hide');
-                $('#quiz').addClass('hide');
-            });
-    </script>
     </body>
 </html>
