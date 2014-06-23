@@ -14,23 +14,24 @@ var mapControl = {
         $(".center-text").text("Zentrieren");
         
         this.bindEvents();
+        
+        navigator.geolocation.getCurrentPosition(this.onLocationFound, this.onLocationError);
+        //map.on('locationerror', this.onLocationError);
+        //map.on('locationfound', this.onLocationFound);
     },
     
     bindEvents: function() {
-        map.on('locationerror', onLocationError);
-
         document.addEventListener("pause", function () {navigator.geolocation.clearWatch(this.curPos);}, false);
-
         document.addEventListener("resume", function () {watchPosition();}, false);
     },
 
     onLocationFound: function(position) {
-        this.radius = position.coords.accuracy / 2;
+        this.radius = position.coords.accuracy / 2;//position.accuracy / 2;
 
-        this.marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
-            .bindPopup("You are within " + radius + " meters from this point", {'closeOnClick': false, 'closeButton': false}).openPopup();
+        this.marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map) //position.latlng
+            .bindPopup("You are within " + this.radius + " meters from this point", {'closeOnClick': false, 'closeButton': false}).openPopup();
 
-        this.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map);
+        this.circle = L.circle([position.coords.latitude, position.coords.longitude], this.radius).addTo(map); //position.latlng
 
         this.centerMap();
     },
@@ -43,7 +44,8 @@ var mapControl = {
     },
 
     onLocationError: function(e) {
-        alert(e.message);
+        alert(e.code + ", " + e.message); //for debug
+        //alert("Wir konnten deine Position nicht finden. Bitte versuche es an einem neuen Standort nochmal."); //for live version
     },
 
     centerMap: function() {
@@ -65,7 +67,7 @@ var CenterMapControl = L.Control.extend({
         var container = L.DomUtil.create('div', 'center-map-control');
 
         L.DomUtil.create('div', 'leaflet-control center-text', container);
-        L.DomEvent.addListener(container, 'click', function() {centerMap();});
+        L.DomEvent.addListener(container, 'click', function() {mapControl.centerMap();});
 
         return container;
     }

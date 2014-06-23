@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html>
+<<<<<<< HEAD
     <head>
         <meta charset="utf-8" />
         <meta name="author" content="Hendrik Niemann" />
@@ -40,6 +41,45 @@
                 <div class="button-double">Überspringen</div>
             </div>
         </div>
+=======
+<head>
+	<meta charset="utf-8" />
+	<meta name="author" content="Hendrik Niemann" />
+	<link rel="stylesheet" href="css/style.css" />
+	<title>Designtest</title>
+</head>
+
+<body>
+<nav id="side-menu">
+    <a>Tour abbrechen</a>
+    <a>Zurück zur Karte</a>
+    <a>Impressum</a>
+</nav>
+<div id="app-frame">
+    <div id="top-bar">
+        <div id="menu-click">
+            <div id="menu-icon">Menu</div>
+        </div>
+        Großstadtjungle<span class="quadrat">2</span>
+    </div>
+    <div id="dynamic-cont">
+        <h1>Der Paradeplatz</h1>
+        <p>
+            Herzlich willkommen auf dem Paradeplatz. Auf der Mitte des Platzes ist ein Brunnen.<br />
+            Wie viele Engel erkennst du?
+        </p>
+    </div>
+    <div id="interaction-bar">
+        <div class="button-double">Zurück zum Rätsel</div>
+        <div id="ueberspringen" class="button-double">Rätsel überspringen</div>
+    </div>
+    <div id="popup">
+        <p>Wollen sie dieses Rätsel wirklich überspringen?</p>
+        <div class="button-double">Abbrechen</div>
+        <div class="button-double">Überspringen</div>
+    </div>
+</div>
+>>>>>>> effc410288f5030a233fbc56a1822d31bfc9edd7
 
     </body>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -102,6 +142,7 @@
                 alert('okay');
             });
         });
+<<<<<<< HEAD
         $('#menu-click').click(function() {
             if (!menu.isShown()) {
                 menu.show();
@@ -113,4 +154,61 @@
             }
         });
     </script>
+=======
+        $popup.show();
+    };
+}();
+
+var menu = function() {
+    var v = 300;
+    var $this = $('#side-menu');
+    var $screen = $('#app-frame');
+    function ishorizontal() {
+        return ($screen.width() - $screen.height()) > 0;
+    }
+    function hideme() {
+        if (ishorizontal()) {
+            $this.width($screen.width()*0.4);
+            $this.animate({'left': -$screen.width()*0.4}, v);
+            $screen.animate({'left': 0}, v);
+        } else {
+            $this.width($screen.width()*0.8);
+            $this.animate({'left': -$screen.width()*0.8}, v);
+            $screen.animate({'left': 0}, v);
+        }
+    }
+    function showme() {
+        if (ishorizontal()) {
+            $this.width($screen.width()*0.4);
+            $this.animate({'left': 0}, v);
+            $screen.animate({'left': $screen.width()*0.4}, v);
+        } else {
+            $this.width($screen.width()*0.8);
+            $this.animate({'left': 0}, v);
+            $screen.animate({'left': $screen.width()*0.8}, v);
+        }
+    }
+    function amShown() {
+        return $this.css('left') == '0px';
+    }
+    return {hide: hideme, show: showme, isShown: amShown};
+}();
+
+$('#ueberspringen').click(function() {
+    popup('Wollen Sie das Rätsel wirklich überspringen?', 'Überspringen', function() {
+        alert('okay');
+    });
+});
+$('#menu-click').click(function() {
+    if (!menu.isShown()) {
+        menu.show();
+    }
+});
+$('#app-frame').click(function() {
+    if (menu.isShown()) {
+        menu.hide();
+    }
+});
+</script>
+>>>>>>> effc410288f5030a233fbc56a1822d31bfc9edd7
 </html>
