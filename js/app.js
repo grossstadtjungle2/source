@@ -107,6 +107,17 @@ var menu = function() {
     return {hide: hideme, show: showme, isShown: amShown};
 }();
 
+var display_map = function() {
+    $('#cont').addClass('hide');
+    $('#map').removeClass('hide');
+};
+
+var display_content = function(cont) {
+    $('#cont').html(cont);
+    $('#map').addClass('hide');
+    $('#cont').removeClass('hide');
+};
+
 $('#menu-click').click(function() {
     if (!menu.isShown()) {
         menu.show();
