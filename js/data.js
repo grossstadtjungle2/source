@@ -12,7 +12,8 @@ var raetsel = {
             "title": "Der Paradeplatz",
             "question": "Der Paradeplatz ist einer der Bekanntesten...",
             "solution": "XXX",
-            "hint": "Blah"
+            "hint": "Blah",
+            "nextid": 2
         }
     }
 }
