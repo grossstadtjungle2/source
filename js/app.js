@@ -33,26 +33,15 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
+        mapControl.initialize();
     }
 };
 
 /**
- * Erstellt eine Pupupabfrage um eine Aktion vom User bestätigen zu lassen
- * @param frage die Frage, die bestätigt werden soll
+ * Erstellt eine Pupupabfrage um eine Aktion vom User bestï¿½tigen zu lassen
+ * @param frage die Frage, die bestï¿½tigt werden soll
  * @param okaytext der Text, auf dem Okay Button
- * @param callback die Callbackfunktion, die beim Klick auf Okay ausgeführt wird
+ * @param callback die Callbackfunktion, die beim Klick auf Okay ausgefï¿½hrt wird
  */
 var popup = function() {
     var $popup = $('#popup');

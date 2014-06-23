@@ -233,6 +233,6 @@ body {
     width: 44.5%; /* Keine Ahnung was hier abfuckt... vielleicht der 1px border... */
 }
 
-.hide {
+.hide, .leaflet-control-attribution {
     display: none;
 }
