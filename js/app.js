@@ -91,7 +91,7 @@ var menu = function() {
         }
     }
     function amShown() {
-        return $this.css('left') == '0px';
+        return $this.css('left') === '0px';
     }
     return {hide: hideme, show: showme, isShown: amShown};
 }();
@@ -100,6 +100,7 @@ var display_map = function() {
     $('#text-cont').addClass('hide');
     $('#interaction-bar').addClass('hide');
     $('#map').removeClass('hide');
+    $('#side-menu .back').addClass('back2quiz').removeClass('back2map').text('Zurück zum Rätsel');
 };
 
 var display_content = function(cont) {
@@ -113,16 +114,27 @@ var current_tour = tour_data;
 var display_quiz = function(id) {
     // Quick and dirty, da wir kein Exception Handling haben nur zum debuggen...
     if (!current_tour)
-        throw 'Es ist keine Tour ausgew�hlt!';
+        throw 'Es ist keine Tour ausgewählt!';
     if (!(quiz = current_tour.points[id]))
-        throw 'Ein R�tsel mit dieser ID existiert in der ausgew�hlten Tour nicht!';
+        throw 'Ein Rätsel mit dieser ID existiert in der ausgewählten Tour nicht!';
     var htm = '<h1>' + quiz.title + '</h1>';
+    htm += '<p>' + quiz.intro + '</p>';
     htm += '<p>' + quiz.question + '</p>';
-    htm += '<input type="text" placeholder="Antwort" />';
+    htm += '<input id="answerField" type="text" placeholder="Antwort" />';
+    htm += '<button type="button" onClick="checkAnswer()" class="button-single">Antwort überprüfen</button>';
     display_content(htm);
-}
+    
+    $('#side-menu .back').addClass('back2map').removeClass('back2quiz').text('Zurück zur Karte');
+};
 
-// Men� triggern
+var checkAnswer = function(id) {
+    if (quiz.solution === $('#answerField').val())
+        display_info(id); 
+    else
+        alert('Falsch!');
+};
+
+// Menü triggern
 $('#menu-click').click(function() {
     if (!menu.isShown()) {
         menu.show();
@@ -134,11 +146,12 @@ $('#app-frame').click(function() {
     }
 });
 
-// Men� Funktionen
-$('.back2map').click(function(e) {
+// Menü Funktionen
+$('.back').click(function(e) {
     e.preventDefault();
     menu.hide();
-    display_map();
+    
+    $(e.currentTarget).hasClass('back2map') ? display_map() : display_quiz(0);
 });
 $('#impressum_click').click(function() {
     menu.hide();
@@ -146,5 +159,3 @@ $('#impressum_click').click(function() {
                     ' Betriebliches Informationsmanagement Jahrgang 2013 im Rahmen der Projektmanagement'+
                     ' Vorlesung erstellt.</p>');
 });
-
-display_quiz(0);

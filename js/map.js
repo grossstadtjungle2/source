@@ -54,14 +54,14 @@ var mapControl = {
     },
 
     onLocationFound: function(position) {
-        var radius = position.coords.accuracy / 2;//position.accuracy / 2;
+        var radius = position.coords.accuracy / 2;
 
-        self.marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map) //position.latlng
+        self.marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
             .bindPopup("You are within " + radius + " meters from this point", {'closeOnClick': false, 'closeButton': false}).openPopup();
 
-        self.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map); //position.latlng
+        self.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map);
 
-        this.centerMap;
+        mapControl.centerMap;
     },
     
     onLocationUpdated: function (position) {

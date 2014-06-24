@@ -173,7 +173,7 @@ body {
     text-align: center;
 }
 
-#text-cont > input {
+#text-cont > input, #text-cont > button {
     background-color: #F8F8F8;
     border: solid 1px #ccc;
     width: 90%;
