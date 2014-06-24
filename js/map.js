@@ -32,16 +32,16 @@ var mapControl = {
     },
     
     drawMarker: function(position, status) {
-        var icon;
+        var markerIcon;
         
         if (status === 'active') {
-            icon = L.icon({iconUrl: 'img/marker-active-quiz-icon.png'});
+            markerIcon = L.icon({iconUrl: 'img/marker-active-quiz-icon.png'});
         } else {
-            icon = L.icon({iconUrl: 'img/marker-inactive-quiz-icon.png'});
+            markerIcon = L.icon({iconUrl: 'img/marker-inactive-quiz-icon.png'});
         }
         
-        var newSpot = L.marker([position.lat, position.lng]).addTo(map)
-            .bindPopup("Hier ist das nächste Rätsel", {'closeOnClick': false, 'closeButton': false, 'icon': icon}).openPopup();
+        var newSpot = L.marker([position.lat, position.lng], {icon: markerIcon}).addTo(map)
+            .bindPopup("Hier ist das nächste Rätsel", {'closeOnClick': false, 'closeButton': false}).openPopup();
     
         return newSpot;
     },

@@ -113,10 +113,12 @@ var menu = function() {
 }();
 
 var display_map = function() {
+    $('#map').removeClass('hide');
     $('#text-cont').addClass('hide');
     $('#interaction-bar').addClass('hide');
-    $('#map').removeClass('hide');
     $('#side-menu .back').addClass('back2quiz').removeClass('back2map').text('Zurück zum Rätsel');
+    
+    map.invalidateSize();
 };
 
 var display_content = function(cont) {
@@ -146,8 +148,8 @@ var display_quiz = function(id) {
 
 var checkAnswer = function(id) {
     if (current_tour.points[id].solution === $('#answerField').val()) {
-        mapControl.drawMarker({'lat': 49.4719216, 'lng': 8.5336204}, 'active');
         display_map();
+        mapControl.drawMarker({'lat': 49.4719216, 'lng': 8.5336204}, 'active');
     } else
         alert('Falsch. Versuch es nochmal. Vielleicht hilft dir der Tipp.');
 };
