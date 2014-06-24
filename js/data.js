@@ -1,4 +1,4 @@
-var tour_data = {
+﻿var tour_data = {
     "id": 0,
     "name": "default",
     "lang": "de",
@@ -20,7 +20,7 @@ var tour_data = {
             "id": 1,
             "coordinates": {"x": 0, "y": 0},
             "title": "Der Marktplatz",
-            "intro": "Der Götterbote Merkur, welcher auf dem Marktplatzbrunnen sogar die Stadtg�ttin Mannhemia(Mannheimia)überragt, hält in der einen Hand den Hermesstab.",
+            "intro": "Der Götterbote Merkur, welcher auf dem Marktplatzbrunnen sogar die Stadtgöttin Mannhemia(Mannheimia)überragt, hält in der einen Hand den Hermesstab.",
             "question": "Was hält er in der anderen Hand?",
             "solution": "Eine Sonne",
             "hint": "",
@@ -60,7 +60,7 @@ var tour_data = {
             "id": 5,
             "coordinates": {"x": 0, "y": 0},
             "title": "Der Wasserturm",
-            "intro": "Blickt man mittig auf der Aussichtsplattform des Wasserturms in Richtung der Augustanlage, ist eine Laterne zu sehen, deren Fu� scheinbar auf eine Skulptur zeigt.",
+            "intro": "Blickt man mittig auf der Aussichtsplattform des Wasserturms in Richtung der Augustanlage, ist eine Laterne zu sehen, deren Fuß scheinbar auf eine Skulptur zeigt.",
             "question": "Welchen Titel trägt diese Skulpur?",
             "solution": "Das Rad",
             "hint": "Der Bildhauer war Morice Lipsi (Tafel vor Ort).",
