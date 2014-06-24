@@ -1,4 +1,4 @@
-var raetsel = {
+var tour_data = {
     "id": 0,
     "name": "default",
     "lang": "de",
