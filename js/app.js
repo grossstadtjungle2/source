@@ -38,10 +38,10 @@ var app = {
 };
 
 /**
- * Erstellt eine Pupupabfrage um eine Aktion vom User best�tigen zu lassen
- * @param frage die Frage, die best�tigt werden soll
+ * Erstellt eine Pupupabfrage um eine Aktion vom User bestätigen zu lassen
+ * @param frage die Frage, die bestätigt werden soll
  * @param okaytext der Text, auf dem Okay Button
- * @param callback die Callbackfunktion, die beim Klick auf Okay ausgef�hrt wird
+ * @param callback die Callbackfunktion, die beim Klick auf Okay ausgeführt wird
  */
 var popup = function() {
     var $popup = $('#popup');
@@ -113,6 +113,7 @@ var display_content = function(cont) {
 var current_tour = tour_data;
 var display_quiz = function(id) {
     // Quick and dirty, da wir kein Exception Handling haben nur zum debuggen...
+    var quiz;
     if (!current_tour)
         throw 'Es ist keine Tour ausgewählt!';
     if (!(quiz = current_tour.points[id]))
@@ -121,17 +122,18 @@ var display_quiz = function(id) {
     htm += '<p>' + quiz.intro + '</p>';
     htm += '<p>' + quiz.question + '</p>';
     htm += '<input id="answerField" type="text" placeholder="Antwort" />';
-    htm += '<button type="button" onClick="checkAnswer()" class="button-single">Antwort überprüfen</button>';
+    htm += '<button type="button" onClick="checkAnswer(' + id + ')" class="button-single">Antwort überprüfen</button>';
     display_content(htm);
     
     $('#side-menu .back').addClass('back2map').removeClass('back2quiz').text('Zurück zur Karte');
 };
 
 var checkAnswer = function(id) {
-    if (quiz.solution === $('#answerField').val())
-        display_info(id); 
-    else
-        alert('Falsch!');
+    if (current_tour.points[id].solution === $('#answerField').val()) {
+        mapControl.drawMarker({'lat': 49.4719216, 'lng': 8.5336204}, 'active');
+        display_map();
+    } else
+        alert('Falsch. Versuch es nochmal. Vielleicht hilft dir der Tipp.');
 };
 
 // Menü triggern

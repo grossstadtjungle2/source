@@ -40,7 +40,7 @@ var mapControl = {
             icon = L.icon({iconUrl: 'img/marker-inactive-quiz-icon.png'});
         }
         
-        var newSpot = L.marker([position.latitude, position.longitude]).addTo(map)
+        var newSpot = L.marker([position.lat, position.lng]).addTo(map)
             .bindPopup("Hier ist das nächste Rätsel", {'closeOnClick': false, 'closeButton': false, 'icon': icon}).openPopup();
     
         return newSpot;

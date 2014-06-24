@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" id="com.tinf13bi.Großstadtjungle" version="1.0.0">
-    <name>Großstadtjungle</name>
-    <description>Cordova Application</description>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:cdv="http://cordova.apache.org/ns/1.0"
+        xmlns:android = "http://schemas.android.com/apk/res/android"
+        id="com.tinf13bi.Grossstadtjungle"
+        version="1.0.0">
+    <name>Grossstadtjungle</name>
+    <description>Unsere App</description>
     <author email="info@com.coolappz" href="http://www.coolappz.com">Marco</author>
-    <access origin="*"/>
-    <preference name="fullscreen" value="true"/>
+    <preference name="fullscreen" value="false"/>
+    <preference name="orientation" value="portrait" />
     <preference name="webviewbounce" value="true"/>
+    
+    <access origin="*"/>
 </widget>
