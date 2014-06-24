@@ -37,12 +37,16 @@ var app = {
     }
 };
 
+var current_tour = tour_data;
+
 var save_data = {
-    nextQuizRdy: function() {
-        return window.localStorage.getItem('nextQ');
+    nextQuiz: function() {
+        if (!window.localStorage.getItem('nextQ'))
+            return false;
+        return current_tour.points[this.lastAnswered().next];
     },
     lastAnswered: function() {
-        return window.localStorage.getItem('lastA');
+        return current_tour.points[window.localStorage.getItem('lastA')];
     },
     setLastAnswered: function(id) {
         return window.localStorage.setItem('lastA', id) &&
@@ -61,13 +65,22 @@ var save_data = {
  */
 var popup = function() {
     var $popup = $('#popup');
+    var $abbrechenbutton = $('#popup > .button-double:first');
     var $okaybutton = $('#popup > .button-double:last');
-    $('#popup > .button-double:first').click(function() {
+    $abbrechenbutton.click(function() {
         $popup.hide();
     });
-    return function(frage, okaytext, callback) {
+    return function(frage, buttons, callback) {
+        if (typeof buttons === 'string') {
+            var okaytext = buttons;
+            var abbrechen = 'Abbrechen';
+        } else {
+            var okaytext = buttons[0];
+            var abbrechen = buttons[1];
+        }
         $popup.children('p').html(frage);
         $okaybutton.html(okaytext);
+        $abbrechenbutton.html(abbrechen);
         $okaybutton.unbind();
         $okaybutton.click(function() {
             $popup.hide();
@@ -128,7 +141,6 @@ var display_content = function(cont) {
     $('#interaction-bar').removeClass('hide');
 };
 
-var current_tour = tour_data;
 var display_quiz = function(id) {
     // Quick and dirty, da wir kein Exception Handling haben nur zum debuggen...
     var quiz;
@@ -171,7 +183,7 @@ $('.back').click(function(e) {
     e.preventDefault();
     menu.hide();
     
-    $(e.currentTarget).hasClass('back2map') ? display_map() : display_quiz(0);
+    $(e.currentTarget).hasClass('back2map') ? display_map() : display_quiz(save_data.nextQuiz().id || save_data.lastAnswered().id);
 });
 $('#impressum_click').click(function() {
     menu.hide();
