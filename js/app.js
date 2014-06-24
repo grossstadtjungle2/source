@@ -37,6 +37,22 @@ var app = {
     }
 };
 
+var save_data = {
+    nextQuizRdy: function() {
+        return window.localStorage.getItem('nextQ');
+    },
+    lastAnswered: function() {
+        return window.localStorage.getItem('lastA');
+    },
+    setLastAnswered: function(id) {
+        return window.localStorage.setItem('lastA', id) &&
+               window.localStorage.setItem('nextQ', false);
+    },
+    enableNextQuiz: function() {
+        return window.localStorage.setItem('nextQ', true);
+    }
+};
+
 /**
  * Erstellt eine Pupupabfrage um eine Aktion vom User bestätigen zu lassen
  * @param frage die Frage, die bestätigt werden soll
