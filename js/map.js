@@ -15,6 +15,7 @@ var mapControl = {
         map.addControl(new CenterMapControl());
         
         this.bindEvents();
+        this.watchPosition();
         
         navigator.geolocation.getCurrentPosition(this.onLocationFound, this.onLocationError);
         //map.on('locationerror', this.onLocationError);
@@ -31,7 +32,7 @@ var mapControl = {
     },
 
     watchPosition: function() {
-        this.curPos = navigator.geolocation.watchPosition(self.onLocationUpdated);
+        navigator.geolocation.watchPosition(self.onLocationUpdated);
     },
     
     drawMarker: function(position) {
