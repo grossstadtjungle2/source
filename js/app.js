@@ -38,8 +38,6 @@ var app = {
 };
 
 var current_tour = tour_data;
-// Zum testen
-mapControl.curPos = [50.489862, 8.465416];
 
 var save_data = {
     nextQuizRdy: function() {
@@ -105,6 +103,13 @@ var popup = function() {
         if (typeof buttons === 'string') {
             var okaytext = buttons;
             var abbrechen = 'Abbrechen';
+        } else if (typeof buttons === 'undefined') {
+            $abbrechenbutton.html('Okay');
+            $okaybutton.hide();
+            $abbrechenbutton.addClass('button-single').removeClass('button-double');
+            $popup.show();
+            $popup.children('p').html(frage);
+            return;
         } else {
             var okaytext = buttons[0];
             var abbrechen = buttons[1];
@@ -112,6 +117,8 @@ var popup = function() {
         $popup.children('p').html(frage);
         $okaybutton.html(okaytext);
         $abbrechenbutton.html(abbrechen);
+        $abbrechenbutton.addClass('button-double').removeClass('button-single');
+        $okaybutton.show();
         $okaybutton.unbind();
         $okaybutton.click(function() {
             $popup.hide();
@@ -222,7 +229,7 @@ var view = function() {
         else
             htm += '<p>Sehr gut!<p>';
         htm += '<p>' + quiz.info + '</p>';
-        current_view = 'content';
+        current_view = 'map';
         display_content(htm);
     }
     
