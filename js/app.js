@@ -271,9 +271,9 @@ var quizzes = {
         if (!save_data.nextQuiz())
             throw 'Es ist gar kein Quiz geöffnet!' + save_data.nextQuiz();
         if (current_tour.points[save_data.nextQuiz().id].solution === $('#answerField').val()) {
-            view.display.map;
-            save_data.setLastAnswered(current_tour.points[save_data.nextQuiz().id]);
-            mapControl.drawMarker(current_tour.points[save_data.nextQuiz().id].coords, 'active');
+            //view.display.info();
+            save_data.setLastAnswered(save_data.nextQuiz().id);
+            mapControl.drawMarker(save_data.nextQuiz().coords, 'active');
         } else
             popup('Leider ist diese Antwort nicht richtig. Versuch es nochmal oder lass dir mit einem Tipp helfen.',
                   ['Tipp', 'Erneut versuchen'], function() { view.display.tipp(save_data.nextQuiz()); });
@@ -311,5 +311,5 @@ $('#stop-tour').click(function() {
         save_data.tourEnd();
         view.display.map();
     });
-})
-save_data.tourEnd();
+});
+//save_data.tourEnd();

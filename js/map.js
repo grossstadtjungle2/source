@@ -2,6 +2,7 @@ var map = L.map('map');
 
 var mapControl = {
     curPos: [0,0],
+    activeMarker: '',
     
     initialize: function() {
         L.tileLayer('img/map/{z}/{x}/{y}.jpg', {
@@ -33,19 +34,24 @@ var mapControl = {
         this.curPos = navigator.geolocation.watchPosition(self.onLocationUpdated);
     },
     
-    drawMarker: function(position, status) {
-        var markerIcon;
+    drawMarker: function(position) {
         
-        if (status === 'active') {
-            markerIcon = L.icon({iconUrl: 'img/marker-active-quiz-icon.png'});
+        if(mapControl.activeMarker !== '') {
+            map.removeLayer(this.activeMarker);
+            L.marker(this.activeMarker.getLatLng(), {icon: inactiveIcon}).addTo(map);
         } else {
-            markerIcon = L.icon({iconUrl: 'img/marker-inactive-quiz-icon.png'});
+            var answered = save_data.startQuiz();
+
+            while(answered != save_data.nextQuiz().id) {
+                L.marker([current_tour.points[answered].coords.lat, current_tour.points[answered].coords.lng], {icon: inactiveIcon}).addTo(map);
+                answered = current_tour.points[answered].nextid;
+            }
         }
         
-        var newSpot = L.marker([position.lat, position.lng], {icon: markerIcon}).addTo(map)
+        var newMarker = L.marker([position.lat, position.lng], {icon: activeIcon}).addTo(map)
             .bindPopup("Hier ist das nächste Rätsel", {'closeOnClick': false, 'closeButton': false}).openPopup();
     
-        return newSpot;
+        return newMarker;
     },
     
     getTileURL: function(position, zoom) {
@@ -63,7 +69,7 @@ var mapControl = {
 
         self.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map);
         
-        mapControl.drawMarker(save_data.nextQuiz().coords, 'active');
+        mapControl.activeMarker = mapControl.drawMarker(save_data.nextQuiz().coords, 'active');
 
         mapControl.centerMap;
     },
@@ -99,3 +105,6 @@ var CenterMapControl = L.Control.extend({
         return container;
     }
 });
+
+var inactiveIcon = L.icon({iconUrl: 'img/marker-inactive-quiz-icon.png'});
+var activeIcon = L.icon({iconUrl: 'img/marker-active-quiz-icon.png'});
