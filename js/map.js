@@ -66,10 +66,6 @@ var mapControl = {
 
         self.marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
             .bindPopup("You are within " + radius + " meters from this point", {'closeOnClick': false, 'closeButton': false}).openPopup();
-            
-        self.marker.click(function(){
-            
-        });
 
         self.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map);
         
@@ -86,7 +82,7 @@ var mapControl = {
         dist += 111.3 * Math.pow((current_tour.points[key].coords.lat - mapControl.curPos[1]), 2);
         dist = Math.sqrt(dist);
 
-        if(dist <= 0.02) {
+        if(dist <= 0.02 && !save_data.nextQuizRdy()) {
             save_data.enableNextQuiz();
             view.display.quiz();
         }
