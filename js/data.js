@@ -71,8 +71,8 @@
             "coords": {"x": 49.482895, "y": 8.461715},
             "title": "Schloss Mannheim",
             "intro": "",
-            "question": "Auf dem Schlossplatz sind zwei Skulpturen zu sehen (Karl Theodor und Karl Philipp). - Welches Gemeinsamkeit besteht zwischen der Skulptur Karl Theodors undeinem lokal populären Fußballclub des Stadtteils Waldhof?",
-            "solution": "",
+            "question": "Auf dem Schlossplatz sind zwei Skulpturen zu sehen (Karl Theodor und Karl Philipp). - Welches Gemeinsamkeit besteht zwischen der Skulptur Karl Theodors und einem lokal populären Fußballclub des Stadtteils Waldhof?",
+            "solution": "1907",
             "hint": "",
             "nextid": 0
         }
