@@ -74,7 +74,7 @@ var tour_data = {
         },
         6: {
             "id": 6,
-            "coordinates": {"x": 49.483370, "y": 8.462130},
+            "coords": {"x": 49.483370, "y": 8.462130},
             "title": "Schloss Mannheim",
             "intro": "Obwohl es selbst nicht in den Quadraten liegt, sind diese zum Schloss hin ausgerichtet. Auf dem Schlossplatz sind Denkmäler von Karl Friedrich und Karl Ludwig zu sehen.",
             "question": "Die Kunsthalle Mannheim und die Skulptur Karl Friedrichs habe ihr Entstehungsjahr gemeinsam. Welches Jahr ist es?",
