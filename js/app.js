@@ -76,10 +76,10 @@ var save_data = {
             dist = Math.pow(111.3 * (current_tour.points[key].coords.lat - mapControl.curPos[0]), 2);
             dist += Math.pow(71.5 * (current_tour.points[key].coords.lng - mapControl.curPos[1]), 2);
             dist = Math.sqrt(dist);
-            console.log(mapControl.curPos[0]);
             if (dist < start.distance)
                 start = {distance: dist, id: key};
         }
+        console.info('Nächster Punkt ist: ' + current_tour.points[start.id].title + '(' + dist + 'km)')
         window.localStorage.setItem('startQ', start.id);
         return start.id;
     },
