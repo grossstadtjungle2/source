@@ -1,4 +1,4 @@
-﻿var tour_data = {
+var tour_data = {
     "id": 0,
     "name": "default",
     "lang": "de",

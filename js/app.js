@@ -43,11 +43,11 @@ var save_data = {
     nextQuiz: function() {
         if (!window.localStorage.getItem('nextQ'))
             return false;
-        return current_tour.points[this.lastAnswered().next];
+        return current_tour.points[this.lastAnswered().nextid];
     },
     lastAnswered: function() {
         if (!window.localStorage.getItem('lastA'))
-            return current_tour.points[0]; 
+            return current_tour.points[0];
         return current_tour.points[window.localStorage.getItem('lastA')];
     },
     setLastAnswered: function(id) {
@@ -59,15 +59,17 @@ var save_data = {
     },
     startQuiz: function() {
         var start = window.localStorage.getItem('startQ');
+        var dist;
         if (start)
             return start;
         // Start noch nicht gesetzt, finde nächsten Punkt
-        /*
+        
         start = {distance: Infinity}
         for (key in curent_tour.points) {
-            if current_tour.points[key]
+            dist = (current_tour.points[key].coords.x - self.currPos[0])^2;
+            dist += (current_tour.points[key].coords.y - self.currPos[1])^2;
         }
-        */
+        
     }
 };
 
@@ -158,16 +160,15 @@ var view = function() {
         $('#text-cont').removeClass('hide');
         if (typeof button !== 'string' && typeof bcallback !== 'function') {
             if (current_view === 'map')
-                $first_button.html('Zurück zur Karte');
+                $first_button.addClass('back2map').removeClass('back2quiz').text('Zurück zur Karte');
             else
-                $first_button.html('Zurück zum Rätsel');
+                $first_button.addClass('back2quiz').removeClass('back2map').text('Zurück zum Rätsel');
             $second_button.addClass('hide');
-            $first_button.removeClass('button-double');
-            $first_button.addClass('button-single');
+            $first_button.removeClass('button-double').addClass('button-single');
         } else {
             $second_button.removeClass('hide');
             $second_button.unbind();
-            //$second_button.click(bcallback);
+            $second_button.click(bcallback);
             $second_button.html(button);
             $first_button.removeClass('button-single');
             $first_button.addClass('button-double');
@@ -206,7 +207,8 @@ var view = function() {
         display:{
             map: display_map,
             content: display_content,
-            quiz: display_quiz
+            quiz: display_quiz,
+            tipp: 
         },
         current: get_current
     };
@@ -219,13 +221,13 @@ var quizzes = {
     },
     checkAnswer: function() {
         if (!save_data.nextQuiz())
-            throw 'Es ist gar kein Quiz geöffnet!';
+            throw 'Es ist gar kein Quiz geöffnet!' + save_data.nextQuiz();
         if (current_tour.points[save_data.nextQuiz().id].solution === $('#answerField').val()) {
             mapControl.drawMarker({'lat': 49.4719216, 'lng': 8.5336204}, 'active');
             view.display.map();
         } else
             popup('Leider ist diese Antwort nicht richtig. Versuch es nochmal oder lass dir mit einem Tipp helfen.',
-                  ['Nochmal versuchen', 'Tipp'], function() { view.display.tipp(save_data.nextQuiz()); });
+                  ['Tipp', 'Erneut versuchen'], function() { view.display.tipp(save_data.nextQuiz()); });
     }
 }
 
@@ -250,7 +252,9 @@ $('.back').click(function(e) {
 });
 $('#impressum_click').click(function() {
     menu.hide();
-    display_content('<h1>Impressum</h1><p>Diese App wurde von Studenten des Studiengangs Angewandte Informatik'+
-                    ' Betriebliches Informationsmanagement Jahrgang 2013 im Rahmen der Projektmanagement'+
-                    ' Vorlesung erstellt.</p>');
+    view.display.content('<h1>Impressum</h1><p>Diese App wurde von Studenten des Studiengangs Angewandte Informatik'+
+                         ' Betriebliches Informationsmanagement Jahrgang 2013 im Rahmen der Projektmanagement'+
+                         ' Vorlesung erstellt.</p>');
 });
+save_data.setLastAnswered(3);
+save_data.enableNextQuiz();
