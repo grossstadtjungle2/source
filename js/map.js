@@ -4,6 +4,8 @@ var mapControl = {
     curPos: [0,0],
     watchId: 0,
     activeMarker: '',
+    myMarker: '',
+    circle: '',
     
     initialize: function() {
         L.tileLayer('img/map/{z}/{x}/{y}.jpg', {
@@ -15,9 +17,9 @@ var mapControl = {
         
         map.addControl(new CenterMapControl());
         
-        navigator.geolocation.getCurrentPosition(this.onLocationFoundFirst, this.onLocationError, {enableHighAccuracy: true});
+        navigator.geolocation.getCurrentPosition(this.onLocationFound, this.onLocationError, {enableHighAccuracy: true});
         
-        this.bindEvents();
+        this.bindEvents();        
         //map.on('locationerror', this.onLocationError);
         //map.on('locationfound', this.onLocationFound);
     },
@@ -29,7 +31,8 @@ var mapControl = {
     },
 
     centerMap: function() {
-        map.setView(self.marker.getLatLng());
+        if (this.myMarker)
+            map.setView(this.myMarker.getLatLng());
     },
     
 
@@ -61,6 +64,7 @@ var mapControl = {
     },
 
     onLocationFound: function(position) {
+        console.info('first');
         var radius = position.coords.accuracy / 2;
         mapControl.curPos = [position.coords.latitude, position.coords.longitude];
         
@@ -68,10 +72,10 @@ var mapControl = {
         dist += Math.pow(71.5 * (save_data.nextQuiz().coords.lng - mapControl.curPos[1]), 2);
         dist = Math.sqrt(dist);
         
-        self.marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
+        this.myMarker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
             .bindPopup("Bis zum nächsten Rätsel sind es noch " + Math.floor(dist * 1000) + "m", {'closeOnClick': false, 'closeButton': false}).openPopup();
 
-        self.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map);
+        this.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map);
         
         mapControl.activeMarker = mapControl.drawMarker(save_data.nextQuiz().coords, 'active');
 
@@ -89,10 +93,10 @@ var mapControl = {
     
     onLocationUpdated: function (position) {
         console.log("Doch aufgerufen!");
-        map.removeLayer(self.marker);
-        map.removeLayer(self.circle);
-
-        this.onLocationFound(position);
+        map.removeLayer(mapControl.myMarker);
+        map.removeLayer(mapControl.circle);
+        
+        mapControl.onLocationFound(position);
     },
 
     onLocationError: function(e) {
