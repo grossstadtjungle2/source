@@ -16,21 +16,23 @@ var mapControl = {
         map.addControl(new CenterMapControl());
         
         navigator.geolocation.getCurrentPosition(this.onLocationFoundFirst, this.onLocationError, {enableHighAccuracy: true});
-        this.watchPosition();
+        
+        this.bindEvents();
         //map.on('locationerror', this.onLocationError);
         //map.on('locationfound', this.onLocationFound);
     },
     
     bindEvents: function() {
-        document.addEventListener("pause", function () {navigator.geolocation.clearWatch(this.mapControl.watchId);}, false);
-        document.addEventListener("resume", function () {navigator.geolocation.watchPosition(this.onLocationUpdated);}, false);
+        document.addEventListener("pause", function () {navigator.geolocation.clearWatch(this.watchId);}, false);
+        document.addEventListener("resume", function () { mapControl.watchID = navigator.geolocation.watchPosition(this.onLocationUpdated);}, false);
+        this.watchId = navigator.geolocation.watchPosition(this.onLocationUpdated);
     },
 
     centerMap: function() {
         map.setView(self.marker.getLatLng());
     },
     
-        this.curPos = navigator.geolocation.watchPosition(self.onLocationUpdated);
+
     drawMarker: function(position) {
         
         if(mapControl.activeMarker !== '') {
@@ -79,12 +81,6 @@ var mapControl = {
         }
 
         this.centerMap();
-    },
-    
-    onLocationFoundFirst: function(position) {
-        this.mapControl.onLocationFound(position);
-        this.watchId = navigator.geolocation.watchPosition(this.mapControl.onLocationUpdated, this.mapControl.onWatchError, {timeout: 3000, enableHighAccuracy: true});
-        this.mapControl.bindEvents();
     },
     
     onWatchError: function() {
