@@ -2,6 +2,7 @@ var map = L.map('map');
 
 var mapControl = {
     curPos: [0,0],
+    watchId: 0,
     activeMarker: '',
     
     initialize: function() {
@@ -14,24 +15,18 @@ var mapControl = {
         
         map.addControl(new CenterMapControl());
         
-        this.bindEvents();
-        
-        navigator.geolocation.getCurrentPosition(this.onLocationFound, this.onLocationError);
+        navigator.geolocation.getCurrentPosition(this.onLocationFoundFirst, this.onLocationError, {enableHighAccuracy: true});
         //map.on('locationerror', this.onLocationError);
         //map.on('locationfound', this.onLocationFound);
     },
     
     bindEvents: function() {
-        document.addEventListener("pause", function () {navigator.geolocation.clearWatch(this.curPos);}, false);
-        document.addEventListener("resume", function () {watchPosition();}, false);
+        document.addEventListener("pause", function () {navigator.geolocation.clearWatch(this.mapControl.watchId);}, false);
+        document.addEventListener("resume", function () {navigator.geolocation.watchPosition(this.onLocationUpdated);}, false);
     },
 
     centerMap: function() {
         map.setView(self.marker.getLatLng());
-    },
-
-    watchPosition: function() {
-        this.curPos = navigator.geolocation.watchPosition(self.onLocationUpdated);
     },
     
     drawMarker: function(position) {
@@ -81,10 +76,21 @@ var mapControl = {
             view.display.quiz();
         }
 
-        mapControl.centerMap();
+        this.centerMap();
+    },
+    
+    onLocationFoundFirst: function(position) {
+        this.mapControl.onLocationFound(position);
+        this.watchId = navigator.geolocation.watchPosition(this.mapControl.onLocationUpdated, this.mapControl.onWatchError, {timeout: 3000, enableHighAccuracy: true});
+        this.mapControl.bindEvents();
+    },
+    
+    onWatchError: function() {
+         alert(e.code + ", " + e.message);
     },
     
     onLocationUpdated: function (position) {
+        console.log("Doch aufgerufen!");
         map.removeLayer(self.marker);
         map.removeLayer(self.circle);
 
