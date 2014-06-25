@@ -18,7 +18,6 @@ var mapControl = {
         map.addControl(new CenterMapControl());
         
         this.bindEvents();
-        this.setActiveMarker();
         //map.on('locationerror', this.onLocationError);
         //map.on('locationfound', this.onLocationFound);
     },
@@ -66,9 +65,12 @@ var mapControl = {
     },
 
     onLocationFound: function(position) {
-        console.info('first');
+        
+         // Kann am Nordpol zu unerwartetem Verhalten führen
+        var first_time = (this.curPos[0] === 0 && this.curPos[1] === 0);
+
         var radius = position.coords.accuracy / 2;
-        mapControl.curPos = [position.coords.latitude, position.coords.longitude];
+        this.curPos = [position.coords.latitude, position.coords.longitude];
         
         dist = Math.pow(111.3 * (save_data.nextQuiz().coords.lat - mapControl.curPos[0]), 2);
         dist += Math.pow(71.5 * (save_data.nextQuiz().coords.lng - mapControl.curPos[1]), 2);
@@ -76,6 +78,11 @@ var mapControl = {
         
         map.removeLayer(this.myMarker);
         this.myMarker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+        
+        if(first_time) {
+            this.setActiveMarker();
+            this.centerMap();
+        }
         
         if (this.activeMarker != '')
             this.activeMarker.getPopup().setContent("Nächstes Rätsel: " + save_data.nextQuiz().title + ' (' + Math.floor(dist * 1000) + "m)");

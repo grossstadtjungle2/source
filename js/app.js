@@ -286,10 +286,10 @@ var quizzes = {
     skip: function() {
         view.display.info(save_data.nextQuiz(), true);
         save_data.setLastAnswered(save_data.nextQuiz().id);
-        mapControl.drawMarker(current_tour.points[save_data.nextQuiz().id].coords, 'active');
-            console.info(save_data.nextQuiz().id + ', ' + save_data.startQuiz());
-            if (save_data.nextQuiz().id == save_data.startQuiz())
-                popup('Sehr gut, Du bist am Ende des Rundkurses angekommen.');
+        mapControl.setActiveMarker();
+        console.info(save_data.nextQuiz().id + ', ' + save_data.startQuiz());
+        if (save_data.nextQuiz().id == save_data.startQuiz())
+            popup('Sehr gut, Du bist am Ende des Rundkurses angekommen.');
     },
     checkAnswer: function() {
         if (!save_data.nextQuiz())
@@ -297,7 +297,7 @@ var quizzes = {
         if (current_tour.points[save_data.nextQuiz().id].solution === $('#answerField').val()) {
             view.display.info(save_data.nextQuiz());
             save_data.setLastAnswered(save_data.nextQuiz().id);
-            mapControl.drawMarker(save_data.nextQuiz().coords, 'active');
+            mapControl.setActiveMarker();
             console.info(save_data.nextQuiz().id + ', ' + save_data.startQuiz());
             if (save_data.nextQuiz().id == save_data.startQuiz())
                 popup('Sehr gut, Du bist am Ende des Rundkurses angekommen.');
