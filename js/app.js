@@ -73,9 +73,10 @@ var save_data = {
         for (key in current_tour.points) {
             if (typeof key === 'undefined' || typeof key === 'function')
                 continue;
-            dist = 71.5 * Math.pow((current_tour.points[key].coords.lng - mapControl.curPos[0]), 2);
-            dist += 111.3 * Math.pow((current_tour.points[key].coords.lat - mapControl.curPos[1]), 2);
+            dist = Math.pow(111.3 * (current_tour.points[key].coords.lat - mapControl.curPos[0]), 2);
+            dist += Math.pow(71.5 * (current_tour.points[key].coords.lng - mapControl.curPos[1]), 2);
             dist = Math.sqrt(dist);
+            console.log(mapControl.curPos[0]);
             if (dist < start.distance)
                 start = {distance: dist, id: key};
         }

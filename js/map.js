@@ -63,13 +63,23 @@ var mapControl = {
 
     onLocationFound: function(position) {
         var radius = position.coords.accuracy / 2;
-
+        mapControl.curPos = [position.coords.latitude, position.coords.longitude];
+        
+        dist = Math.pow(111.3 * (save_data.nextQuiz().coords.lat - mapControl.curPos[0]), 2);
+        dist += Math.pow(71.5 * (save_data.nextQuiz().coords.lng - mapControl.curPos[1]), 2);
+        dist = Math.sqrt(dist);
+        
         self.marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
-            .bindPopup("You are within " + radius + " meters from this point", {'closeOnClick': false, 'closeButton': false}).openPopup();
+            .bindPopup("Bis zum nächsten Rätsel sind es noch " + Math.floor(dist * 1000) + "m", {'closeOnClick': false, 'closeButton': false}).openPopup();
 
         self.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map);
         
         mapControl.activeMarker = mapControl.drawMarker(save_data.nextQuiz().coords, 'active');
+
+        if(dist <= 0.02 && !save_data.nextQuizRdy()) {
+            save_data.enableNextQuiz();
+            view.display.quiz();
+        }
 
         mapControl.centerMap();
     },
@@ -77,15 +87,6 @@ var mapControl = {
     onLocationUpdated: function (position) {
         map.removeLayer(self.marker);
         map.removeLayer(self.circle);
-        
-        dist = 71.5 * Math.pow((current_tour.points[key].coords.lng - mapControl.curPos[0]), 2);
-        dist += 111.3 * Math.pow((current_tour.points[key].coords.lat - mapControl.curPos[1]), 2);
-        dist = Math.sqrt(dist);
-
-        if(dist <= 0.02 && !save_data.nextQuizRdy()) {
-            save_data.enableNextQuiz();
-            view.display.quiz();
-        }
 
         this.onLocationFound(position);
     },
