@@ -23,7 +23,7 @@ var tour_data = {
             "title": "G1 - Der Marktplatz",
             "intro": "Wie Paradeplatz und Schloss, ist auch der Mannheimer Marktplatz an der Kurpfalzstraße vorzufinden. Diesen schmückt der Marktplatzbrunnen. Der Götterbote Merkur, welcher auf diesem Brunnen sogar die Stadtgöttin Mannhemia (Mannheimia) überragt, hält in einer Hand den Hermesstab.",
             "question": "Was hält er in der anderen Hand?",
-            "solution": "Eine Sonne",
+            "solution": "Sonne",
             "hint": "Das Objekt verkörpert den Stern, der in unserem Sonnensystem im Zentrum steht.",
             "info": "Der Namensgebung entsprechend ist der Marktplatz nach wie vor Veranstaltungsort für Mannheimer Wochenmärkte: Dienstag und Donnerstag 08:00 bis 14:00 Uhr bzw. Samstag 08:00 bis 15:00 Uhr. Ebenso kann man täglich Zeuge eines Glockenspiels des Glockenturms vor Ort werden: um 07:45 Uhr, 11:45 Uhr und 17:45 Uhr.",
             "nextid": 2
