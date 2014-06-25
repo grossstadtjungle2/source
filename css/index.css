@@ -154,6 +154,8 @@ body {
 
 #text-cont {
     font-size: inherit;
+    visibility: visible;
+    z-index: 15;
 }
 
 #text-cont > h1 {

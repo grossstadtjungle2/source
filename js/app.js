@@ -159,6 +159,7 @@ var view = function() {
         $('#map').removeClass('hide');
         $('#side-menu .back').addClass('back2quiz').removeClass('back2map').text('Zurück zum Rätsel');
         current_view = 'map';
+    map.invalidateSize();
     };
     
     function display_content(cont, button, bcallback) {
@@ -230,8 +231,8 @@ var quizzes = {
         if (!save_data.nextQuiz())
             throw 'Es ist gar kein Quiz geöffnet!' + save_data.nextQuiz();
         if (current_tour.points[save_data.nextQuiz().id].solution === $('#answerField').val()) {
-            mapControl.drawMarker({'lat': 49.4719216, 'lng': 8.5336204}, 'active');
             view.display.map();
+        mapControl.drawMarker({'lat': 49.4874925, 'lng': 8.4890731}, 'active');
         } else
             popup('Leider ist diese Antwort nicht richtig. Versuch es nochmal oder lass dir mit einem Tipp helfen.',
                   ['Tipp', 'Erneut versuchen'], function() { view.display.tipp(save_data.nextQuiz()); });
