@@ -14,7 +14,7 @@
             "question": "Wie viele Seiten des Mahnmals sind beschrieben?",
             "solution": "4",
             "hint": "Das Mahnmal ist ein Kubus.",
-			"info": "Der Kubus, der vom Bildhauer Jochen Kitzbihler angefertigt wurde, ist schräg zum Paradeplatz ausgerichtet und weist eine Kantenlänge von insgesamt 3 Metern auf. Er wurde am 25. November 2003 eingeweiht.",
+            "info": "Der Kubus, der vom Bildhauer Jochen Kitzbihler angefertigt wurde, ist schräg zum Paradeplatz ausgerichtet und weist eine Kantenlänge von insgesamt 3 Metern auf. Er wurde am 25. November 2003 eingeweiht.",
             "nextid": 1
         },
         1: {
@@ -26,7 +26,7 @@
             "solution": "Eine Sonne",
             "hint": "Das Objekt verkörpert den Stern, der in unserem Sonnensystem im Zentrum steht.",
             "info": "Der Namensgebung entsprechend ist der Marktplatz nach wie vor Veranstaltungsort für Mannheimer Wochenmärkte: Dienstag und Donnerstag 08:00 bis 14:00 Uhr bzw. Samstag 08:00 bis 15:00 Uhr. Ebenso kann man täglich Zeuge eines Glockenspiels des Glockenturms vor Ort werden: um 07:45 Uhr, 11:45 Uhr und 17:45 Uhr.",
-			"nextid": 2
+            "nextid": 2
         },
         2: {
             "id": 2,
@@ -37,7 +37,7 @@
             "solution": "Konrad Adenauer",
             "hint": "Meist werden bedeutende Ereignisse fotographisch festgehalten.",
             "info": "Konrad Adenauer selbst weihte den Friedensengel 1952 ursprünglich im Quadrat B4 ein. Erst 1983 versetzte man es zum heutigen Standort neben dem Rathaus.",
-			"nextid": 3
+            "nextid": 3
         },
         3: {
             "id": 3,
@@ -47,7 +47,7 @@
             "question": "Welcher Art von Angriff zerstörte im Zweiten Weltkrieg neben Sprengladungen die Synagoge?",
             "solution": "Ein Luftangriff",
             "hint": "Es war kein Bodenangriff.",
-			"info": "Nach mehreren Vorgängerbauten wurde die hier beschriebene Synagoge in F2 zwischen 1851 und 1855 errichtet. Nach der Machtergreifung der Nationalsozialisten wurde die Einrichtung während der Novemberpogrome 1938 von SA-Männern erstmals zerstört. Es wurde Feuer gelegt und Sprengstoff gezündet bis die jüdische Gemeinde im darauffolgenden Jahr dazu gezwungen war sie an die Stadverwaltung zu 'verkaufen'."
+            "info": "Nach mehreren Vorgängerbauten wurde die hier beschriebene Synagoge in F2 zwischen 1851 und 1855 errichtet. Nach der Machtergreifung der Nationalsozialisten wurde die Einrichtung während der Novemberpogrome 1938 von SA-Männern erstmals zerstört. Es wurde Feuer gelegt und Sprengstoff gezündet bis die jüdische Gemeinde im darauffolgenden Jahr dazu gezwungen war sie an die Stadverwaltung zu 'verkaufen'."
             "nextid": 4
         },
         4: {
@@ -59,7 +59,7 @@
             "solution": "Das Nationaltheater",
             "hint": "Vor Ort befindet sich eine Tafel, auf der die Lösung zu finden ist.",
             "info": "Im Jahr 1782 wurde an diesem Ort Friedrich Schillers 'Die Räuber' uraufgeführt."
-			"nextid": 5
+            "nextid": 5
         },
         5: {
             "id": 5,
@@ -70,7 +70,7 @@
             "solution": "Das Rad",
             "hint": "Vor Ort gibt es eine Tafel über den Bildhauer der Skulptur, Morice Lipsi.",
             "info": "Zwischen 1886 und 1889 wurde der 60 Meter hohe Turm (der Durchmesser liegt bei 19 Metern) nach Plänen von Gustav Halmhuber gebaut. Tatsächlich hatte er ursprünglich alle Funktionen der Trinkwasserversorgung zu erfüllen.",
-			"nextid": 6
+            "nextid": 6
         },
         6: {
             "id": 6,
@@ -81,7 +81,7 @@
             "solution": "1907",
             "hint": "Die Mannheimer Kunsthalle wurde zum 300. Stadtjubiliäum eröffnet.",
             "info": "Unter anderem beherbergt das Schloss Mannheim aktuell die Universitätsbibliothek, Seminarräume und Vorlesungssäle der Mannheimer Universität."
-			"nextid": 0
+            "nextid": 0
         }
     }
 };
