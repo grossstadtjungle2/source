@@ -161,7 +161,7 @@ var display_quiz = function(id) {
 var checkAnswer = function(id) {
     if (current_tour.points[id].solution === $('#answerField').val()) {
         display_map();
-        mapControl.drawMarker({'lat': 49.4719216, 'lng': 8.5336204}, 'active');
+        mapControl.drawMarker({'lat': 49.4874925, 'lng': 8.4890731}, 'active');
     } else
         alert('Falsch. Versuch es nochmal. Vielleicht hilft dir der Tipp.');
 };

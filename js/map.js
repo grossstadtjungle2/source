@@ -61,6 +61,9 @@ var mapControl = {
 
         self.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map);
 
+        window.localStorage.setItem('nextQ', true);
+        window.localStorage.setItem('lastA', 0);
+
         mapControl.centerMap;
     },
     
