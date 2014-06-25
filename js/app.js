@@ -52,14 +52,11 @@ var save_data = {
     },
     lastAnswered: function() {
         if (!window.localStorage.getItem('lastA')) {
-            console.log('running');
             return {id: -1, nextid: this.startQuiz()};
         }
-        console.log('fucking up');
         return current_tour.points[window.localStorage.getItem('lastA')];
     },
     setLastAnswered: function(id) {
-        console.log('triggert');
         return window.localStorage.setItem('lastA', id) &&
                window.localStorage.setItem('nextQ', false);
     },
@@ -75,7 +72,6 @@ var save_data = {
         
         start = {distance: Infinity, id: -1}
         for (key in current_tour.points) {
-            console.info(key);
             if (typeof key === 'undefined' || typeof key === 'function')
                 continue;
             dist = Math.pow((current_tour.points[key].coords.lng - mapControl.curPos[0]), 2);
@@ -178,11 +174,11 @@ var view = function() {
         cont && $('#text-cont').html(cont);
         $('#map').addClass('hide');
         $('#text-cont').removeClass('hide');
+        if (get_current() === 'map')
+            $first_button.addClass('back2map').removeClass('back2quiz').text('Zurück zur Karte');
+        else
+            $first_button.addClass('back2quiz').removeClass('back2map').text('Zurück zum Rätsel');
         if (typeof button !== 'string' && typeof bcallback !== 'function') {
-            if (current_view === 'map')
-                $first_button.addClass('back2map').removeClass('back2quiz').text('Zurück zur Karte');
-            else
-                $first_button.addClass('back2quiz').removeClass('back2map').text('Zurück zum Rätsel');
             $second_button.addClass('hide');
             $first_button.removeClass('button-double').addClass('button-single');
         } else {
@@ -198,23 +194,8 @@ var view = function() {
         current_view = 'content';
     };
     
-    function display_quiz(id) {
-        // Quick and dirty, da wir kein Exception Handling haben nur zum debuggen...
-        var quiz;
-        if (typeof id === 'object')
-            quiz = id;
-        else if (typeof id === 'number') {
-            if (!current_tour)
-                throw 'Es ist keine Tour ausgewählt!';
-            if (!(quiz = current_tour.points[id]))
-                throw 'Ein Rätsel mit dieser ID existiert in der ausgewählten Tour nicht!';
-        } else {
-            if (!(quiz = save_data.nextQuizRdy()))
-                if (save_data.lastAnswered().id < 0)
-                    return false;
-                else
-                    quiz = save_data.lastAnswered();
-        }
+    function display_quiz(input) {
+        var quiz = quiz_by_input(input);
         var htm = '<h1>' + quiz.title + '</h1>';
         htm += '<p>' + quiz.intro + '</p>';
         htm += '<p>' + quiz.question + '</p>';
@@ -225,14 +206,34 @@ var view = function() {
         $('#side-menu .back').addClass('back2map').removeClass('back2quiz').text('Zurück zur Karte');
     }
     
-    function display_tipp(id) {
+    function display_tipp(input) {
+        var quiz = quiz_by_input(input);
+        var htm = '<h1>Tipp: ' + quiz.title + '</h1>';
+        htm += '<p>' + quiz.question + '</p>';
+        htm += '<p>' + quiz.hint + '</p>';
+        display_content(htm);
+    }
+    
+    function display_info(input, skipped) {
+        var quiz = quiz_by_input(input);
+        var htm = '<h1>Wusstest du schon?</h1>';
+        if (skipped === true)
+            htm += '<p>Schade, die richtige Antwort wäre "' + quiz.solution + '" gewesen.</p>';
+        else
+            htm += '<p>Sehr gut!<p>';
+        htm += '<p>' + quiz.info + '</p>';
+        current_view = 'content';
+        display_content(htm);
+    }
+    
+    function quiz_by_input(input) {
         var quiz;
-        if (typeof id === 'object')
-            quiz = id;
-        else if (typeof id === 'number') {
+        if (typeof input === 'object')
+            quiz = input;
+        else if (typeof input === 'number') {
             if (!current_tour)
                 throw 'Es ist keine Tour ausgewählt!';
-            if (!(quiz = current_tour.points[id]))
+            if (!(quiz = current_tour.points[input]))
                 throw 'Ein Rätsel mit dieser ID existiert in der ausgewählten Tour nicht!';
         } else {
             if (!(quiz = save_data.nextQuizRdy()))
@@ -241,10 +242,7 @@ var view = function() {
                 else
                     quiz = save_data.lastAnswered();
         }
-        var htm = '<h1>Tipp: ' + quiz.title + '</h1>';
-        htm += '<p>' + quiz.question + '</p>';
-        htm += '<p>' + quiz.hint + '</p>';
-        display_content(htm);
+        return quiz;
     }
     
     function get_current() {
@@ -256,26 +254,39 @@ var view = function() {
             map: display_map,
             content: display_content,
             quiz: display_quiz,
-            tipp: display_tipp
+            tipp: display_tipp,
+            info: display_info
         },
-        current: get_current
+        current: get_current,
+        backto: function(str) {
+            current_view = str;
+            return this;
+        }
     };
 }();
 
 
 var quizzes = {
     skip: function() {
-        
+        view.display.info(save_data.nextQuiz(), true);
+        save_data.setLastAnswered(save_data.nextQuiz().id);
+        mapControl.drawMarker(current_tour.points[save_data.nextQuiz().id].coords, 'active');
+            console.info(save_data.nextQuiz().id + ', ' + save_data.startQuiz());
+            if (save_data.nextQuiz().id == save_data.startQuiz())
+                popup('Sehr gut, Du bist am Ende des Rundkurses angekommen.');
     },
     checkAnswer: function() {
         if (!save_data.nextQuiz())
             throw 'Es ist gar kein Quiz geöffnet!' + save_data.nextQuiz();
         if (current_tour.points[save_data.nextQuiz().id].solution === $('#answerField').val()) {
-            view.display.map;
-            save_data.setLastAnswered(current_tour.points[save_data.nextQuiz().id]);
+            view.display.info(save_data.nextQuiz());
+            save_data.setLastAnswered(save_data.nextQuiz().id);
             mapControl.drawMarker(current_tour.points[save_data.nextQuiz().id].coords, 'active');
+            console.info(save_data.nextQuiz().id + ', ' + save_data.startQuiz());
+            if (save_data.nextQuiz().id == save_data.startQuiz())
+                popup('Sehr gut, Du bist am Ende des Rundkurses angekommen.');
         } else
-            popup('Leider ist diese Antwort nicht richtig. Versuch es nochmal oder lass dir mit einem Tipp helfen.',
+            popup('Leider ist diese Antwort nicht richtig. Versuch es nochmal oder lass Dir mit einem Tipp helfen.',
                   ['Tipp', 'Erneut versuchen'], function() { view.display.tipp(save_data.nextQuiz()); });
     }
 };
@@ -297,7 +308,7 @@ $('.back').click(function(e) {
     e.preventDefault();
     menu.hide();
     
-    $(e.currentTarget).hasClass('back2map') ? view.display.map() : view.display.quiz(save_data.nextQuiz());
+    $(e.currentTarget).hasClass('back2map') ? view.display.map() : view.backto('map').display.quiz(save_data.nextQuiz());
 });
 $('#impressum_click').click(function() {
     menu.hide();
@@ -311,5 +322,4 @@ $('#stop-tour').click(function() {
         save_data.tourEnd();
         view.display.map();
     });
-})
-save_data.tourEnd();
+});
