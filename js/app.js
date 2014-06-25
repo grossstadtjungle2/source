@@ -39,7 +39,7 @@ var app = {
 
 var current_tour = tour_data;
 // Zum testen
-mapControl.curPos = [50.489862, 8.465416];
+//mapControl.curPos = [50.489862, 8.465416];
 
 var save_data = {
     nextQuizRdy: function() {
@@ -74,8 +74,8 @@ var save_data = {
         for (key in current_tour.points) {
             if (typeof key === 'undefined' || typeof key === 'function')
                 continue;
-            dist = Math.pow((current_tour.points[key].coords.lng - mapControl.curPos[0]), 2);
-            dist += Math.pow((current_tour.points[key].coords.lat - mapControl.curPos[1]), 2);
+            dist = 71.5 * Math.pow((current_tour.points[key].coords.lng - mapControl.curPos[0]), 2);
+            dist += 111.3 * Math.pow((current_tour.points[key].coords.lat - mapControl.curPos[1]), 2);
             dist = Math.sqrt(dist);
             if (dist < start.distance)
                 start = {distance: dist, id: key};
