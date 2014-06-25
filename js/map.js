@@ -63,7 +63,7 @@ var mapControl = {
 
         self.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map);
         
-        this.drawMarker(save_data.nextQuiz().coords);
+        mapControl.drawMarker(save_data.nextQuiz().coords, 'active');
 
         mapControl.centerMap;
     },
