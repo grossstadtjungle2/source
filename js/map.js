@@ -17,6 +17,8 @@ var mapControl = {
         
         map.addControl(new CenterMapControl());
         
+        navigator.geolocation.getCurrentPosition(this.onLocationFound, this.onLocationError, {enableHighAccuracy: true});
+        
         this.bindEvents();
         this.setActiveMarker();
         //map.on('locationerror', this.onLocationError);
@@ -74,11 +76,8 @@ var mapControl = {
         dist += Math.pow(71.5 * (save_data.nextQuiz().coords.lng - mapControl.curPos[1]), 2);
         dist = Math.sqrt(dist);
         
-        map.removeLayer(this.myMarker);
         this.myMarker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
-        
-        if (this.activeMarker != '')
-            this.activeMarker.getPopup().setContent("Nächstes Rätsel: " + save_data.nextQuiz().title + ' (' + Math.floor(dist * 1000) + "m)");
+        this.activeMarker.getPopup().setContent("Nächstes Rätsel: " + save_data.nextQuiz().title + ' (' + Math.floor(dist * 1000) + "m)");
 
         this.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map);
 
