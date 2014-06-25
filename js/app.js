@@ -204,6 +204,8 @@ var view = function() {
     
     function display_quiz(input) {
         var quiz = quiz_by_input(input);
+        if (!quiz)
+            return false;
         var htm = '<h1>' + quiz.title + '</h1>';
         htm += '<p>' + quiz.intro + '</p>';
         htm += '<p>' + quiz.question + '</p>';
@@ -216,6 +218,8 @@ var view = function() {
     
     function display_tipp(input) {
         var quiz = quiz_by_input(input);
+        if (!quiz)
+            return false;
         var htm = '<h1>Tipp: ' + quiz.title + '</h1>';
         htm += '<p>' + quiz.question + '</p>';
         htm += '<p>' + quiz.hint + '</p>';
@@ -224,6 +228,8 @@ var view = function() {
     
     function display_info(input, skipped) {
         var quiz = quiz_by_input(input);
+        if (!quiz)
+            return false;
         var htm = '<h1>Wusstest du schon?</h1>';
         if (skipped === true)
             htm += '<p>Schade, die richtige Antwort wäre "' + quiz.solution + '" gewesen.</p>';
@@ -245,9 +251,10 @@ var view = function() {
                 throw 'Ein Rätsel mit dieser ID existiert in der ausgewählten Tour nicht!';
         } else {
             if (!(quiz = save_data.nextQuizRdy()))
-                if (save_data.lastAnswered().id < 0)
+                if (save_data.lastAnswered().id < 0) {
+                    popup('Du musst zuerst näher an deinen Zielpunkt heran kommen!');
                     return false;
-                else
+                } else
                     quiz = save_data.lastAnswered();
         }
         return quiz;
@@ -316,7 +323,7 @@ $('.back').click(function(e) {
     e.preventDefault();
     menu.hide();
     
-    $(e.currentTarget).hasClass('back2map') ? view.display.map() : view.backto('map').display.quiz(save_data.nextQuiz());
+    $(e.currentTarget).hasClass('back2map') ? view.display.map() : view.backto('map').display.quiz();
 });
 $('#impressum_click').click(function() {
     menu.hide();
