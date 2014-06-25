@@ -38,6 +38,8 @@ var app = {
 };
 
 var current_tour = tour_data;
+// Zum testen
+self.currPos = [49.483996, 8.475751]
 
 var save_data = {
     nextQuiz: function() {
@@ -46,8 +48,9 @@ var save_data = {
         return current_tour.points[this.lastAnswered().nextid];
     },
     lastAnswered: function() {
-        if (!window.localStorage.getItem('lastA'))
-            return current_tour.points[0];
+        if (!window.localStorage.getItem('lastA')) {
+            
+        }
         return current_tour.points[window.localStorage.getItem('lastA')];
     },
     setLastAnswered: function(id) {
@@ -64,12 +67,16 @@ var save_data = {
             return start;
         // Start noch nicht gesetzt, finde nächsten Punkt
         
-        start = {distance: Infinity}
+        start = {distance: Infinity, id: -1}
         for (key in curent_tour.points) {
             dist = (current_tour.points[key].coords.x - self.currPos[0])^2;
             dist += (current_tour.points[key].coords.y - self.currPos[1])^2;
+            if (dist < start.distance)
+                start = {distance: dist, id: key};
         }
-        
+    }
+    tourEnd: function() {
+        windows.localStorage.clearAll();
     }
 };
 
@@ -256,5 +263,4 @@ $('#impressum_click').click(function() {
                          ' Betriebliches Informationsmanagement Jahrgang 2013 im Rahmen der Projektmanagement'+
                          ' Vorlesung erstellt.</p>');
 });
-save_data.setLastAnswered(3);
-save_data.enableNextQuiz();
+save_data.tourEnd();
