@@ -19,22 +19,26 @@ var mapControl = {
         
         navigator.geolocation.getCurrentPosition(this.onLocationFound, this.onLocationError, {enableHighAccuracy: true});
         
-        this.bindEvents();        
+        this.bindEvents();
+        this.setActiveMarker();
         //map.on('locationerror', this.onLocationError);
         //map.on('locationfound', this.onLocationFound);
     },
     
     bindEvents: function() {
         document.addEventListener("pause", function () {navigator.geolocation.clearWatch(this.watchId);}, false);
-        document.addEventListener("resume", function () { mapControl.watchID = navigator.geolocation.watchPosition(this.onLocationUpdated);}, false);
+        document.addEventListener("resume", function () { mapControl.watchID = navigator.geolocation.watchPosition(this.onLocationUpdated); }, false);
         this.watchId = navigator.geolocation.watchPosition(this.onLocationUpdated);
     },
 
     centerMap: function() {
-        if (this.myMarker)
-            map.setView(this.myMarker.getLatLng());
+        if (mapControl.myMarker != '')
+            map.setView(mapControl.myMarker.getLatLng());
     },
     
+    setActiveMarker: function() {
+        this.activeMarker = this.drawMarker(save_data.nextQuiz().coords, 'active');
+    },
 
     drawMarker: function(position) {
         
@@ -72,19 +76,15 @@ var mapControl = {
         dist += Math.pow(71.5 * (save_data.nextQuiz().coords.lng - mapControl.curPos[1]), 2);
         dist = Math.sqrt(dist);
         
-        this.myMarker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
-            .bindPopup("Bis zum nächsten Rätsel sind es noch " + Math.floor(dist * 1000) + "m", {'closeOnClick': false, 'closeButton': false}).openPopup();
+        this.myMarker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+        this.activeMarker.getPopup().setContent("Nächstes Rätsel: " + save_data.nextQuiz().title + ' (' + Math.floor(dist * 1000) + "m)");
 
         this.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map);
-        
-        mapControl.activeMarker = mapControl.drawMarker(save_data.nextQuiz().coords, 'active');
 
         if(dist <= 0.02 && !save_data.nextQuizRdy()) {
             save_data.enableNextQuiz();
             view.display.quiz();
         }
-
-        this.centerMap();
     },
     
     onWatchError: function() {
