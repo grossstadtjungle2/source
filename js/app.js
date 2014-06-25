@@ -46,6 +46,8 @@ var save_data = {
         return current_tour.points[this.lastAnswered().next];
     },
     lastAnswered: function() {
+        if (!window.localStorage.getItem('lastA'))
+            return current_tour.points[0]; 
         return current_tour.points[window.localStorage.getItem('lastA')];
     },
     setLastAnswered: function(id) {
@@ -54,11 +56,23 @@ var save_data = {
     },
     enableNextQuiz: function() {
         return window.localStorage.setItem('nextQ', true);
+    },
+    startQuiz: function() {
+        var start = window.localStorage.getItem('startQ');
+        if (start)
+            return start;
+        // Start noch nicht gesetzt, finde nächsten Punkt
+        /*
+        start = {distance: Infinity}
+        for (key in curent_tour.points) {
+            if current_tour.points[key]
+        }
+        */
     }
 };
 
 /**
- * Erstellt eine Pupupabfrage um eine Aktion vom User bestätigen zu lassen
+ * Erstellt eine Popupabfrage um eine Aktion vom User bestätigen zu lassen
  * @param frage die Frage, die bestätigt werden soll
  * @param okaytext der Text, auf dem Okay Button
  * @param callback die Callbackfunktion, die beim Klick auf Okay ausgeführt wird
@@ -125,44 +139,95 @@ var menu = function() {
     return {hide: hideme, show: showme, isShown: amShown};
 }();
 
-var display_map = function() {
-    $('#text-cont').addClass('hide');
-    $('#interaction-bar').addClass('hide');
-    $('#map').removeClass('hide');
-    $('#side-menu .back').addClass('back2quiz').removeClass('back2map').text('Zurück zum Rätsel');
-};
-
-var display_content = function(cont) {
-    cont && $('#text-cont').html(cont);
-    $('#map').addClass('hide');
-    $('#text-cont').removeClass('hide');
-    $('#interaction-bar').removeClass('hide');
-};
-
-var display_quiz = function(id) {
-    // Quick and dirty, da wir kein Exception Handling haben nur zum debuggen...
-    var quiz;
-    if (!current_tour)
-        throw 'Es ist keine Tour ausgewählt!';
-    if (!(quiz = current_tour.points[id]))
-        throw 'Ein Rätsel mit dieser ID existiert in der ausgewählten Tour nicht!';
-    var htm = '<h1>' + quiz.title + '</h1>';
-    htm += '<p>' + quiz.intro + '</p>';
-    htm += '<p>' + quiz.question + '</p>';
-    htm += '<input id="answerField" type="text" placeholder="Antwort" />';
-    htm += '<button type="button" onClick="checkAnswer(' + id + ')" class="button-single">Antwort überprüfen</button>';
-    display_content(htm);
+var view = function() {
+    var current_view = 'map';
+    var $first_button = $('#interaction-bar > div:first');
+    var $second_button = $('#interaction-bar > div:last');
     
-    $('#side-menu .back').addClass('back2map').removeClass('back2quiz').text('Zurück zur Karte');
-};
+    function display_map() {
+        $('#text-cont').addClass('hide');
+        $('#interaction-bar').addClass('hide');
+        $('#map').removeClass('hide');
+        $('#side-menu .back').addClass('back2quiz').removeClass('back2map').text('Zurück zum Rätsel');
+        current_view = 'map';
+    };
+    
+    function display_content(cont, button, bcallback) {
+        cont && $('#text-cont').html(cont);
+        $('#map').addClass('hide');
+        $('#text-cont').removeClass('hide');
+        if (typeof button !== 'string' && typeof bcallback !== 'function') {
+            if (current_view === 'map')
+                $first_button.html('Zurück zur Karte');
+            else
+                $first_button.html('Zurück zum Rätsel');
+            $second_button.addClass('hide');
+            $first_button.removeClass('button-double');
+            $first_button.addClass('button-single');
+        } else {
+            $second_button.removeClass('hide');
+            $second_button.unbind();
+            //$second_button.click(bcallback);
+            $second_button.html(button);
+            $first_button.removeClass('button-single');
+            $first_button.addClass('button-double');
+        }
+        $('#interaction-bar').removeClass('hide');
+        $('#side-menu .back').addClass('back2map').removeClass('back2quiz').text('Zurück zum Karte');
+        current_view = 'content';
+    };
+    
+    var display_quiz = function(id) {
+        // Quick and dirty, da wir kein Exception Handling haben nur zum debuggen...
+        var quiz;
+        if (typeof id === 'object')
+            quiz = id;
+        else {
+            if (!current_tour)
+                throw 'Es ist keine Tour ausgewählt!';
+            if (!(quiz = current_tour.points[id]))
+                throw 'Ein Rätsel mit dieser ID existiert in der ausgewählten Tour nicht!';
+        }
+        var htm = '<h1>' + quiz.title + '</h1>';
+        htm += '<p>' + quiz.intro + '</p>';
+        htm += '<p>' + quiz.question + '</p>';
+        htm += '<input id="answerField" type="text" placeholder="Antwort" />';
+        htm += '<button type="button" onClick="quizzes.checkAnswer()" class="button-single">Antwort überprüfen</button>';
+        view.display.content(htm, 'Rätsel überspringen', function() { popup('Wollen sie das Rätsel wirklich überspringen?', 'Überspringen', quizzes.skip) });
+        
+        $('#side-menu .back').addClass('back2map').removeClass('back2quiz').text('Zurück zur Karte');
+    };
+    
+    function get_current() {
+        return current_view;
+    }
+    
+    return {
+        display:{
+            map: display_map,
+            content: display_content,
+            quiz: display_quiz
+        },
+        current: get_current
+    };
+}();
 
-var checkAnswer = function(id) {
-    if (current_tour.points[id].solution === $('#answerField').val()) {
-        mapControl.drawMarker({'lat': 49.4719216, 'lng': 8.5336204}, 'active');
-        display_map();
-    } else
-        alert('Falsch. Versuch es nochmal. Vielleicht hilft dir der Tipp.');
-};
+
+var quizzes = {
+    skip: function() {
+        
+    },
+    checkAnswer: function() {
+        if (!save_data.nextQuiz())
+            throw 'Es ist gar kein Quiz geöffnet!';
+        if (current_tour.points[save_data.nextQuiz().id].solution === $('#answerField').val()) {
+            mapControl.drawMarker({'lat': 49.4719216, 'lng': 8.5336204}, 'active');
+            view.display.map();
+        } else
+            popup('Leider ist diese Antwort nicht richtig. Versuch es nochmal oder lass dir mit einem Tipp helfen.',
+                  ['Nochmal versuchen', 'Tipp'], function() { view.display.tipp(save_data.nextQuiz()); });
+    }
+}
 
 // Menü triggern
 $('#menu-click').click(function() {
@@ -181,7 +246,7 @@ $('.back').click(function(e) {
     e.preventDefault();
     menu.hide();
     
-    $(e.currentTarget).hasClass('back2map') ? display_map() : display_quiz(save_data.nextQuiz().id || save_data.lastAnswered().id);
+    $(e.currentTarget).hasClass('back2map') ? view.display.map() : view.display.quiz(save_data.nextQuiz() || save_data.lastAnswered());
 });
 $('#impressum_click').click(function() {
     menu.hide();
