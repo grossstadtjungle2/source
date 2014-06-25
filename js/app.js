@@ -39,7 +39,7 @@ var app = {
 
 var current_tour = tour_data;
 // Zum testen
-//mapControl.curPos = [49.483996, 8.475751];
+mapControl.curPos = [50.489862, 8.465416];
 
 var save_data = {
     nextQuizRdy: function() {
@@ -52,12 +52,14 @@ var save_data = {
     },
     lastAnswered: function() {
         if (!window.localStorage.getItem('lastA')) {
-            console.log(this.startQuiz());
+            console.log('running');
             return {id: -1, nextid: this.startQuiz()};
         }
+        console.log('fucking up');
         return current_tour.points[window.localStorage.getItem('lastA')];
     },
     setLastAnswered: function(id) {
+        console.log('triggert');
         return window.localStorage.setItem('lastA', id) &&
                window.localStorage.setItem('nextQ', false);
     },
@@ -73,10 +75,12 @@ var save_data = {
         
         start = {distance: Infinity, id: -1}
         for (key in current_tour.points) {
-            if (!key || typeof key === 'function')
+            console.info(key);
+            if (typeof key === 'undefined' || typeof key === 'function')
                 continue;
-            dist = (current_tour.points[key].coords.lat - mapControl.curPos[0])^2;
-            dist += (current_tour.points[key].coords.lng - mapControl.curPos[1])^2;
+            dist = Math.pow((current_tour.points[key].coords.lng - mapControl.curPos[0]), 2);
+            dist += Math.pow((current_tour.points[key].coords.lat - mapControl.curPos[1]), 2);
+            dist = Math.sqrt(dist);
             if (dist < start.distance)
                 start = {distance: dist, id: key};
         }
@@ -167,7 +171,7 @@ var view = function() {
         $('#map').removeClass('hide');
         $('#side-menu .back').addClass('back2quiz').removeClass('back2map').text('Zurück zum Rätsel');
         current_view = 'map';
-    map.invalidateSize();
+        map.invalidateSize();
     };
     
     function display_content(cont, button, bcallback) {
@@ -199,11 +203,17 @@ var view = function() {
         var quiz;
         if (typeof id === 'object')
             quiz = id;
-        else {
+        else if (typeof id === 'number') {
             if (!current_tour)
                 throw 'Es ist keine Tour ausgewählt!';
             if (!(quiz = current_tour.points[id]))
                 throw 'Ein Rätsel mit dieser ID existiert in der ausgewählten Tour nicht!';
+        } else {
+            if (!(quiz = save_data.nextQuizRdy()))
+                if (save_data.lastAnswered().id < 0)
+                    return false;
+                else
+                    quiz = save_data.lastAnswered();
         }
         var htm = '<h1>' + quiz.title + '</h1>';
         htm += '<p>' + quiz.intro + '</p>';
@@ -216,7 +226,25 @@ var view = function() {
     }
     
     function display_tipp(id) {
-        display_content(current_tour.points[id].tipp);
+        var quiz;
+        if (typeof id === 'object')
+            quiz = id;
+        else if (typeof id === 'number') {
+            if (!current_tour)
+                throw 'Es ist keine Tour ausgewählt!';
+            if (!(quiz = current_tour.points[id]))
+                throw 'Ein Rätsel mit dieser ID existiert in der ausgewählten Tour nicht!';
+        } else {
+            if (!(quiz = save_data.nextQuizRdy()))
+                if (save_data.lastAnswered().id < 0)
+                    return false;
+                else
+                    quiz = save_data.lastAnswered();
+        }
+        var htm = '<h1>Tipp: ' + quiz.title + '</h1>';
+        htm += '<p>' + quiz.question + '</p>';
+        htm += '<p>' + quiz.hint + '</p>';
+        display_content(htm);
     }
     
     function get_current() {
@@ -269,7 +297,7 @@ $('.back').click(function(e) {
     e.preventDefault();
     menu.hide();
     
-    $(e.currentTarget).hasClass('back2map') ? view.display.map() : view.display.quiz(save_data.nextQuiz() || save_data.lastAnswered());
+    $(e.currentTarget).hasClass('back2map') ? view.display.map() : view.display.quiz(save_data.nextQuiz());
 });
 $('#impressum_click').click(function() {
     menu.hide();
@@ -277,4 +305,11 @@ $('#impressum_click').click(function() {
                          ' Betriebliches Informationsmanagement Jahrgang 2013 im Rahmen der Projektmanagement'+
                          ' Vorlesung erstellt.</p>');
 });
+$('#stop-tour').click(function() {
+    menu.hide();
+    popup('Willst du die Tour wirklich abbrechen?', ['Ja', 'Nein'], function() {
+        save_data.tourEnd();
+        view.display.map();
+    });
+})
 save_data.tourEnd();
