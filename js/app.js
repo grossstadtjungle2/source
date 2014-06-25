@@ -39,7 +39,7 @@ var app = {
 
 var current_tour = tour_data;
 // Zum testen
-mapControl.curPos = [49.483996, 8.475751]
+//mapControl.curPos = [49.483996, 8.475751];
 
 var save_data = {
     nextQuizRdy: function() {
@@ -75,8 +75,8 @@ var save_data = {
         for (key in current_tour.points) {
             if (!key || typeof key === 'function')
                 continue;
-            dist = (current_tour.points[key].coords.x - mapControl.curPos[0])^2;
-            dist += (current_tour.points[key].coords.y - mapControl.curPos[1])^2;
+            dist = (current_tour.points[key].coords.lat - mapControl.curPos[0])^2;
+            dist += (current_tour.points[key].coords.lng - mapControl.curPos[1])^2;
             if (dist < start.distance)
                 start = {distance: dist, id: key};
         }
@@ -243,13 +243,14 @@ var quizzes = {
         if (!save_data.nextQuiz())
             throw 'Es ist gar kein Quiz geöffnet!' + save_data.nextQuiz();
         if (current_tour.points[save_data.nextQuiz().id].solution === $('#answerField').val()) {
-            view.display.map();
-        mapControl.drawMarker({'lat': 49.4874925, 'lng': 8.4890731}, 'active');
+            view.display.map;
+            save_data.setLastAnswered(current_tour.points[save_data.nextQuiz().id]);
+            mapControl.drawMarker(current_tour.points[save_data.nextQuiz().id].coords, 'active');
         } else
             popup('Leider ist diese Antwort nicht richtig. Versuch es nochmal oder lass dir mit einem Tipp helfen.',
                   ['Tipp', 'Erneut versuchen'], function() { view.display.tipp(save_data.nextQuiz()); });
     }
-}
+};
 
 // Menü triggern
 $('#menu-click').click(function() {

@@ -1,6 +1,8 @@
 var map = L.map('map');
 
 var mapControl = {
+    curPos: [0,0],
+    
     initialize: function() {
         L.tileLayer('img/map/{z}/{x}/{y}.jpg', {
             minZoom: 15,
@@ -19,7 +21,7 @@ var mapControl = {
     },
     
     bindEvents: function() {
-        document.addEventListener("pause", function () {navigator.geolocation.clearWatch(self.curPos);}, false);
+        document.addEventListener("pause", function () {navigator.geolocation.clearWatch(this.curPos);}, false);
         document.addEventListener("resume", function () {watchPosition();}, false);
     },
 
@@ -28,7 +30,7 @@ var mapControl = {
     },
 
     watchPosition: function() {
-        self.curPos = navigator.geolocation.watchPosition(self.onLocationUpdated);
+        this.curPos = navigator.geolocation.watchPosition(self.onLocationUpdated);
     },
     
     drawMarker: function(position, status) {
@@ -60,9 +62,8 @@ var mapControl = {
             .bindPopup("You are within " + radius + " meters from this point", {'closeOnClick': false, 'closeButton': false}).openPopup();
 
         self.circle = L.circle([position.coords.latitude, position.coords.longitude], radius).addTo(map);
-
-        window.localStorage.setItem('nextQ', true);
-        window.localStorage.setItem('lastA', 0);
+        
+        this.drawMarker(save_data.nextQuiz().coords);
 
         mapControl.centerMap;
     },

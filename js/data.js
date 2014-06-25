@@ -8,7 +8,7 @@ var tour_data = {
     "points": {
         0: {
             "id": 0,
-            "coords": {"x": 49.487412, "y": 8.467297},
+            "coords": {"lat": 49.487412, "lng": 8.467297},
             "title": "P2 - Das Mahnmal",
             "intro": "Bei den Mannheimer Planken, der zentralen Einkaufsstraße Mannheims, wurde für jüdische Opfer des Nationalsozialismus ein Mahnmal errichtet. Auf diesem wurden in Spiegelschrift mehr als 2200 Opfer eingraviert.",
             "question": "Wie viele Seiten des Mahnmals sind beschrieben?",
@@ -19,7 +19,7 @@ var tour_data = {
         },
         1: {
             "id": 1,
-            "coords": {"x": 49.489692, "y": 8.467397},
+            "coords": {"lat": 49.489692, "lng": 8.467397},
             "title": "G1 - Der Marktplatz",
             "intro": "Wie Paradeplatz und Schloss, ist auch der Mannheimer Marktplatz an der Kurpfalzstraße vorzufinden. Diesen schmückt der Marktplatzbrunnen. Der Götterbote Merkur, welcher auf diesem Brunnen sogar die Stadtgöttin Mannhemia (Mannheimia) überragt, hält in einer Hand den Hermesstab.",
             "question": "Was hält er in der anderen Hand?",
@@ -30,7 +30,7 @@ var tour_data = {
         },
         2: {
             "id": 2,
-            "coords": {"x": 49.489949, "y": 8.462149},
+            "coords": {"lat": 49.489949, "lng": 8.462149},
             "title": "E6 - Der Friedensengel",
             "intro": "An den Mannheimer Planken und in der Nähe des Rathauses befindet sich die Skulptur des Friedensengels. Sie soll an Opfer des Regimes des 3. Reiches erinnern.",
             "question": "Welcher Bundeskanzler weihte den Friedensengel 1952 ein?",
@@ -41,7 +41,7 @@ var tour_data = {
         },
         3: {
             "id": 3,
-            "coords": {"x": 49.489862, "y": 8.465416},
+            "coords": {"lat": 49.489862, "lng": 8.465416},
             "title": "F2 - Die Hauptsynagoge",
             "intro": "Nahe der aktuellen Synagoge Mannheims (F3) und nicht weit vom Marktplatz entfernt befand sich die Hauptsynagoge der jüdischen Gemeinde.",
             "question": "Welcher Art von Angriff zerstörte im Zweiten Weltkrieg neben Sprengladungen die Synagoge?",
@@ -52,7 +52,7 @@ var tour_data = {
         },
         4: {
             "id": 4,
-            "coords": {"x": 49.486409, "y": 8.462112},
+            "coords": {"lat": 49.486409, "lng": 8.462112},
             "title": "B3 - Der Schillerplatz",
             "intro": "Zwischen dem Mannheimer Schloss und dem Museum Zeughaus (D5) befindet sich eine Grünanlage, benannt nach dem deutschen Dichter, Philosoph und Historiker Friedrich Schiller. Ihm gilt auch eines der Denkmale vor Ort.",
             "question": "Welches 1778 eröffnete Gebäude, das hier an diesem Ort stand, war ein Geschenk den Kurfürsten Karl Theodors, nachdem er Bayern erbte?",
@@ -63,7 +63,7 @@ var tour_data = {
         },
         5: {
             "id": 5,
-            "coords": {"x": 49.483994, "y": 8.475750},
+            "coords": {"lat": 49.483994, "lng": 8.475750},
             "title": "Der Wasserturm",
             "intro": "Am Ende der zentralen Einkaufsstraße Mannheims in Richtung Südosten steht ein Wahrzeichen Mannheims: der Wasserturm. Dieser verfügt über eine 'Aussichtsplattform'.",
             "question": "Blickt man mittig von dieser Aussichtsplattform in Richtung Augustanlage, ist eine Laterne zu sehen, deren Fuß scheinbar auf eine Skulptur zeigt. Welchen Titel trägt diese Skulpur?",
@@ -74,7 +74,7 @@ var tour_data = {
         },
         6: {
             "id": 6,
-            "coords": {"x": 49.483370, "y": 8.462130},
+            "coords": {"lat": 49.483370, "lng": 8.462130},
             "title": "Schloss Mannheim",
             "intro": "Obwohl es selbst nicht in den Quadraten liegt, sind diese zum Schloss hin ausgerichtet. Auf dem Schlossplatz sind Denkmäler von Karl Friedrich und Karl Ludwig zu sehen.",
             "question": "Die Kunsthalle Mannheim und die Skulptur Karl Friedrichs habe ihr Entstehungsjahr gemeinsam. Welches Jahr ist es?",
