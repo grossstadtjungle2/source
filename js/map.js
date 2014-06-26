@@ -24,8 +24,8 @@ var mapControl = {
     
     bindEvents: function() {
         document.addEventListener("pause", function () {navigator.geolocation.clearWatch(this.watchId);}, false);
-        document.addEventListener("resume", function () { mapControl.watchID = navigator.geolocation.watchPosition(this.onLocationUpdated); }, false);
-        this.watchId = navigator.geolocation.watchPosition(this.onLocationUpdated);
+        document.addEventListener("resume", function () { mapControl.watchID = navigator.geolocation.watchPosition(this.onLocationUpdated, this.onWatchError, {maxAge: 5000, enableHighAccuracy: true}); }, false);
+        this.watchId = navigator.geolocation.watchPosition(this.onLocationUpdated, this.onWatchError, {maxAge: 5000, enableHighAccuracy: true});
     },
 
     centerMap: function() {
@@ -100,11 +100,11 @@ var mapControl = {
     },
     
     onLocationUpdated: function (position) {
-        console.log("Doch aufgerufen!");
         map.removeLayer(mapControl.myMarker);
         map.removeLayer(mapControl.circle);
         
         mapControl.onLocationFound(position);
+        map.invalidateSize();
     },
 
     onLocationError: function(e) {

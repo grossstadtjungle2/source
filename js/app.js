@@ -79,7 +79,7 @@ var save_data = {
             if (dist < start.distance)
                 start = {distance: dist, id: key};
         }
-        console.info('Nächster Punkt ist: ' + current_tour.points[start.id].title + '(' + dist + 'km)')
+        console.info('Nächster Punkt ist: ' + current_tour.points[start.id].title + '(' + dist + 'km)');
         window.localStorage.setItem('startQ', start.id);
         return start.id;
     },
