@@ -85,3 +85,47 @@ var tour_data = {
         }
     }
 };
+
+var tour_data = {
+    "id": 0,
+    "name": "default",
+    "lang": "de",
+    "title": "Standardtour",
+    "info": "Eine kleine Tour durch die Mannheimer Innenstadt",
+    "modified": 0, // Timestamp
+    "points": {
+        0: {
+            "id": 0,
+            "coords": {"lat": 49.473616, "lng": 8.533724},
+            "title": "Heidis",
+            "intro": "Fast Food um die Ecke.",
+            "question": "Name eines von Studenten bevorzugten Imbiss?",
+            "solution": "Heidis Imbiss",
+            "hint": "Antwort steht auf der Tafel vorm Lokal.",
+            "info": "Mittags wird dieser Ort von Studenten überlaufen.",
+            "nextid": 1
+        },
+        1: {
+            "id": 1,
+            "coords": {"lat": 49.473052, "lng": 8.535167},
+            "title": "Gebäude E",
+            "intro": "Hier befinden sich die größten Vorlesungssäle.",
+            "question": "Was ist in diesem Gebäude noch in Massen vorhanden?",
+            "solution": "Bücher",
+            "hint": "Viel Wissen wird darin gesammelt.",
+            "info": "Hier ist die Mensa der DHBW im Erdgeschoss.",
+            "nextid": 2
+        },
+        2: {
+            "id": 2,
+            "coords": {"lat": 49.474426, "lng": 8.536643},
+            "title": "Supermarkt",
+            "intro": "In den Supermärkten um die DHBW wimmelt es von Studenten und Rentnern.",
+            "question": "Welche Supermarktkette betreibt hier in der Nähe auch eine Tankstelle?",
+            "solution": "Edeka",
+            "hint": "Fünf Buchstaben.",
+            "info": "Außerdem befinden sich ALDI und Lidl in unmittelbarer Nähe.",
+            "nextid": 0
+        }
+    }
+};
