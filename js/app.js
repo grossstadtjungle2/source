@@ -56,8 +56,8 @@ var save_data = {
         return current_tour.points[window.localStorage.getItem('lastA')];
     },
     setLastAnswered: function(id) {
-        return window.localStorage.setItem('lastA', id) &&
-               window.localStorage.setItem('nextQ', false);
+        window.localStorage.setItem('lastA', id);
+        window.localStorage.setItem('nextQ', false);
     },
     enableNextQuiz: function() {
         return window.localStorage.setItem('nextQ', true);

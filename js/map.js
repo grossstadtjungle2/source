@@ -76,7 +76,7 @@ var mapControl = {
         dist += Math.pow(71.5 * (save_data.nextQuiz().coords.lng - mapControl.curPos[1]), 2);
         dist = Math.sqrt(dist);
         
-        map.removeLayer(this.myMarker);
+        //map.removeLayer(this.myMarker);
         this.myMarker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
         
         if(first_time) {

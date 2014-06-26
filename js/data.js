@@ -103,7 +103,7 @@ var tour_data = {
             "solution": "Heidis Imbiss",
             "hint": "Antwort steht auf der Tafel vorm Lokal.",
             "info": "Mittags wird dieser Ort von Studenten überlaufen.",
-            "nextid": 1
+            "nextid": 2
         },
         1: {
             "id": 1,
@@ -114,7 +114,7 @@ var tour_data = {
             "solution": "Bücher",
             "hint": "Viel Wissen wird darin gesammelt.",
             "info": "Hier ist die Mensa der DHBW im Erdgeschoss.",
-            "nextid": 2
+            "nextid": 0
         },
         2: {
             "id": 2,
@@ -125,7 +125,7 @@ var tour_data = {
             "solution": "Edeka",
             "hint": "Fünf Buchstaben.",
             "info": "Außerdem befinden sich ALDI und Lidl in unmittelbarer Nähe.",
-            "nextid": 0
+            "nextid": 1
         }
     }
 };
