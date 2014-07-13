@@ -40,49 +40,79 @@ var app = {
 var current_tour = tour_data;
 //mapControl.curPos = [50.489862, 8.465416];
 
+/**
+ * Das Objekt handelt alles rund ums Quiz
+ */
 var save_data = {
+    /**
+     * Überprüft, ob die Person, das nächste Rätsel sehen darf
+     * @returns {Rätsel | false} Das nächste Rätselobjekt wird zurückgegeben, mit allen Parametern, sonst false.
+     */
     nextQuizRdy: function() {
-        if (!window.localStorage.getItem('nextQ'))
-            return false;
+//        if (!window.localStorage.getItem('nextQ'))
+//            return false;
         return this.nextQuiz();
     },
+    /**
+     * Gibt das nächstes Rätselobjekt zurück
+     * @returns {Rätsel} Das nächste Rätselobjekt wird zurückgegeben, mit allen Parametern.
+     */
     nextQuiz: function() {
         return current_tour.points[this.lastAnswered().nextid];
     },
+    /**
+     * Gibt das Rätselobjekt des zuletzt beantworteten Rätsels zurück. Wenn noch keins beantwortet wurde wird -1, mit nextId des nächstliegendsten Rätsels
+     * @returns {Rätsel} Das zuletzt beantwortete Rätselobjekt
+     */
     lastAnswered: function() {
         if (!window.localStorage.getItem('lastA')) {
             return {id: -1, nextid: this.startQuiz()};
         }
         return current_tour.points[window.localStorage.getItem('lastA')];
     },
+    /**
+     * Setzt das Rätsel als beantwortet
+     * @param {Rätsel ID} id Die ID des beantworteten Rätsels
+     */
     setLastAnswered: function(id) {
         window.localStorage.setItem('lastA', id);
         window.localStorage.setItem('nextQ', false);
     },
+    /**
+     * Erlaubt das beantworten des nächsten Rätsels
+     * @returns {boolean}
+     */
     enableNextQuiz: function() {
         return window.localStorage.setItem('nextQ', true);
     },
+    /**
+     * 
+     * @returns {Rätsel ID}
+     */
     startQuiz: function() {
-        var start = window.localStorage.getItem('startQ');
+        var start = {'id' : window.localStorage.getItem('startQ')};
         var dist;
-        if (start)
-            return start;
+                
         // Start noch nicht gesetzt, finde nächsten Punkt
-        
-        start = {distance: Infinity, id: -1}
-        for (key in current_tour.points) {
-            if (typeof key === 'undefined' || typeof key === 'function')
-                continue;
-            dist = Math.pow(111.3 * (current_tour.points[key].coords.lat - mapControl.curPos[0]), 2);
-            dist += Math.pow(71.5 * (current_tour.points[key].coords.lng - mapControl.curPos[1]), 2);
-            dist = Math.sqrt(dist);
-            if (dist < start.distance)
-                start = {distance: dist, id: key};
+        if (!start.id) {        
+            start = {distance: Infinity, id: -1};
+            for (key in current_tour.points) {
+                if (typeof key === 'undefined' || typeof key === 'function')
+                    continue;
+                dist = Math.pow(111.3 * (current_tour.points[key].coords.lat - mapControl.curPos[0]), 2);
+                dist += Math.pow(71.5 * (current_tour.points[key].coords.lng - mapControl.curPos[1]), 2);
+                dist = Math.sqrt(dist);
+                if (dist < start.distance)
+                    start = {distance: dist, id: key};
+            }
+            console.info('Nächster Punkt ist: ' + current_tour.points[start.id].title + '(' + dist + 'km)');
+            window.localStorage.setItem('startQ', start.id);
         }
-        console.info('Nächster Punkt ist: ' + current_tour.points[start.id].title + '(' + dist + 'km)');
-        window.localStorage.setItem('startQ', start.id);
         return start.id;
     },
+    /**
+     * Löscht alle Daten aus der Datenbank (localStoorage)
+     */
     tourEnd: function() {
         window.localStorage.clear();
     }
@@ -93,6 +123,7 @@ var save_data = {
  * @param frage die Frage, die bestätigt werden soll
  * @param okaytext der Text, auf dem Okay Button
  * @param callback die Callbackfunktion, die beim Klick auf Okay ausgeführt wird
+ * @type Function
  */
 var popup = function() {
     var $popup = $('#popup');
@@ -130,6 +161,10 @@ var popup = function() {
     };
 }();
 
+/**
+ * Das Menü-Objekt mit dem das Menü kontrolliert wird.
+ * @type Function
+ */
 var menu = function() {
     var v = 300;
     var $this = $('#side-menu');
@@ -165,11 +200,19 @@ var menu = function() {
     return {hide: hideme, show: showme, isShown: amShown};
 }();
 
+
+/**
+ * Kontroolliert die Ansichten
+ * @type Function
+ */
 var view = function() {
     var current_view = 'map';
     var $first_button = $('#interaction-bar > div:first');
     var $second_button = $('#interaction-bar > div:last');
     
+    /**
+     * Anzeigen der Map
+     */
     function display_map() {
         $('#text-cont').addClass('hide');
         $('#interaction-bar').addClass('hide');
@@ -179,6 +222,12 @@ var view = function() {
         map.invalidateSize();
     };
     
+    /**
+     * Anzeigen des Inhalts
+     * @param {String} cont Contenttext
+     * @param {String} button Text des zweiten Buttons
+     * @param {Function} bcallback Callbackfunktion des zweiten Buttons
+     */
     function display_content(cont, button, bcallback) {
         cont && $('#text-cont').html(cont);
         $('#map').addClass('hide');
@@ -203,6 +252,11 @@ var view = function() {
         current_view = 'content';
     };
     
+    /**
+     * Zeigt die Rätsel-View an mit aktuellem Rätsel
+     * @param {ID|Rätsel} input Erwartet eine Rätsel ID oder Objekt
+     * @returns {Boolean} Gibt false zurück, wenn kein Quiz verfügbar ist
+     */
     function display_quiz(input) {
         var quiz = quiz_by_input(input);
         if (!quiz)
@@ -217,6 +271,11 @@ var view = function() {
         $('#side-menu .back').addClass('back2map').removeClass('back2quiz').text('Zurück zur Karte');
     }
     
+    /**
+     * Zeigt die Tipp-View zum aktuellen Rätsel an
+     * @param {ID|Rätsel} input Erwartet eine Rätsel ID oder Objekt
+     * @returns {Boolean} Gibt false zurück, wenn kein Quiz verfügbar ist
+     */
     function display_tipp(input) {
         var quiz = quiz_by_input(input);
         if (!quiz)
@@ -227,6 +286,12 @@ var view = function() {
         display_content(htm);
     }
     
+    /**
+     * Zeigt die Info-View an mit zusätzlichen Infos zum Rätsel
+     * @param {ID|Rätsel} input Erwartet eine Rätsel ID oder Objekt
+     * @param {Boolean} skipped Erwartet true, wenn das Rätsel übersprungen wurde
+     * @returns {Boolean} Git false zurück, wenn kein Quiz verfügbar ist
+     */
     function display_info(input, skipped) {
         var quiz = quiz_by_input(input);
         if (!quiz)
@@ -241,6 +306,12 @@ var view = function() {
         display_content(htm);
     }
     
+    
+    /**
+     * Überprüf, ob eine Tour ausgewählt wurde, das angegebene Rätsel in der Tour existiert und, ob die Person nah genug am Punkt ist 
+     * @param {ID|Rätsel} input Erwartet eine Rätsel ID oder Objekt
+     * @returns {Rätsel|false} Gibt ein Rätsel zurück, wenn alle Bedingungen erfüllt wurden, sonst false
+     */
     function quiz_by_input(input) {
         var quiz;
         if (typeof input === 'object')
@@ -261,6 +332,10 @@ var view = function() {
         return quiz;
     }
     
+    /**
+     * Gibt als String die aktuelle View zurück
+     * @returns {content|map} Die aktuelle View
+     */
     function get_current() {
         return current_view;
     }
@@ -281,8 +356,14 @@ var view = function() {
     };
 }();
 
-
+/**
+ * Verwaltet die Rätselaktionen (Beantworten, Tipp, ...)
+ * @type Object
+ */
 var quizzes = {
+    /**
+     * Überspringt das aktuelle Rätsel
+     */
     skip: function() {
         view.display.info(save_data.nextQuiz(), true);
         save_data.setLastAnswered(save_data.nextQuiz().id);
@@ -291,6 +372,9 @@ var quizzes = {
         if (save_data.nextQuiz().id == save_data.startQuiz())
             popup('Sehr gut, Du bist am Ende des Rundkurses angekommen.');
     },
+    /**
+     * Überprüft die Antwort
+     */
     checkAnswer: function() {
         if (!save_data.nextQuiz())
             throw 'Es ist gar kein Quiz geöffnet!' + save_data.nextQuiz();

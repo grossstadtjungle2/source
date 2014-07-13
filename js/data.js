@@ -77,7 +77,7 @@ var tour_data = {
             "coords": {"lat": 49.483370, "lng": 8.462130},
             "title": "Schloss Mannheim",
             "intro": "Obwohl es selbst nicht in den Quadraten liegt, sind diese zum Schloss hin ausgerichtet. Auf dem Schlossplatz sind Denkmäler von Karl Friedrich und Karl Ludwig zu sehen.",
-            "question": "Die Kunsthalle Mannheim und die Skulptur Karl Friedrichs habe ihr Entstehungsjahr gemeinsam. Welches Jahr ist es?",
+            "question": "Die Kunsthalle Mannheim und die Skulptur Karl Friedrichs haben ihr Entstehungsjahr gemeinsam. Welches Jahr ist es?",
             "solution": "1907",
             "hint": "Die Mannheimer Kunsthalle wurde zum 300. Stadtjubiliäum eröffnet.",
             "info": "Unter anderem beherbergt das Schloss Mannheim aktuell die Universitätsbibliothek, Seminarräume und Vorlesungssäle der Mannheimer Universität.",
@@ -86,7 +86,7 @@ var tour_data = {
     }
 };
 
-var tour_data = {
+var tour_data2 = {
     "id": 0,
     "name": "default",
     "lang": "de",
