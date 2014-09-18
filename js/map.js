@@ -1,7 +1,7 @@
 var map = L.map('map');
 
 /**
- * Handlt FUnktionen rund um die Karte inkl. Standort
+ * Handlt Funktionen rund um die Karte inkl. Standort
  * @type Object
  */
 var mapControl = {
@@ -15,7 +15,7 @@ var mapControl = {
      * Initialisiert die Map
      */
     initialize: function() {
-        L.tileLayer('img/map/{z}/{x}/{y}.jpg', {
+        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             minZoom: 15,
             maxZoom: 18
         }).addTo(map);
@@ -48,15 +48,17 @@ var mapControl = {
     
     /**
      * Setzen des Markers, der den Standort des aktuellen Rätsels zeigt
+     * @return {Marker} Marker des nächsten Rätsels zurückgeben
      */
     setActiveMarker: function() {
         this.activeMarker = this.drawMarker(save_data.nextQuiz().coords);
+        return this.activeMarker;
     },
 
     /**
      * Zeichnet Marker an gegebener Position
      * @param {LngLat} position Longitude(lng)- und Latitude(lat)-Werte in JSON-Format
-     * @returns {Marker} GIbt zuletzt gemalten Marker zurück
+     * @returns {Marker} Gibt zuletzt gemalten Marker zurück
      */
     drawMarker: function(position) {
         
