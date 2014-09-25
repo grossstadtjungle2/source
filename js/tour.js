@@ -5,7 +5,7 @@ app.save = {
 	 */
 	getTour: function() {
 		return window.localStorage['tour'] || false;
-	}
+	},
 
 	/**
 	 * Setzt die ID der Tour, für die die Speicherdaten angelegt werden
@@ -13,7 +13,7 @@ app.save = {
 	 */
 	setTour: function( id ) {
 		window.localStorage['tour'] = id;
-	}
+	},
 
 	/**
 	 * Gibt die ID des zuletzt beantworteten Rätsels zurück
@@ -60,7 +60,7 @@ app.save = {
 	 */
 	enableNext: function() {
 		window.localStorage['nextQ'] = true;
-	}
+	},
 
 	/**
 	 * Löscht alle Tourdaten
@@ -69,7 +69,7 @@ app.save = {
 		delete window.localStorage['nextQ'];
 		delete window.localStorage['lastA'];
 		delete window.localStorage['startQ'];
-	}
+	},
 
 	/**
 	 * Gibt die festgelegte Sprache zurück
@@ -77,7 +77,7 @@ app.save = {
 	 */
 	getLang: function() {
 		return window.localStorage['lang'] || 'de';
-	}
+	},
 
 	/**
 	 * Setz die Sprache der der App auf einen Wert
