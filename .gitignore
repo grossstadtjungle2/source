@@ -3,5 +3,6 @@ build/
 nbbuild/
 dist/
 nbdist/
+tags/*.js
 nbactions.xml
 nb-configuration.xml
