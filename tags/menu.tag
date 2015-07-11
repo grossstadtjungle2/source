@@ -1,31 +1,27 @@
 <menu>
-	<div class="menupoint" each={ this.points } show={ this.show } >
+	<div class="menupoint" each={ this.entries } show={ this.show } onclick={ this.action } >
 		{ this.text }
 	</div>
 
 	<script>
-	this.points = this.opts.points;
+	this.entries = this.opts.entries;
 
-	var getPoint = (function( name ) {
+	var getEntry = (function( name ) {
 		var i;
-		for ( i = 0; i < this.points.length; ++i ) {
-			if ( this.points[i].text === name ) {
-				return this.points[i];
+		for ( i = 0; i < this.entries.length; ++i ) {
+			if ( this.entries[i].name === name ) {
+				return this.entries[i];
 			}
 		}
 		throw new Error('Unregistered menu point ' + name + '.');
 	}).bind(this);
 	
 	this.show = function( name ) {
-		getPoint( name ).show = true;
+		getEntry( name ).show = true;
 	};
 
 	this.hide = function( name ) {
-		getPoint( name ).show = false;
+		getEntry( name ).show = false;
 	};
-
-	this.on('test', function() {
-		console.log('hi');
-	});
 	</script>
 </menu>

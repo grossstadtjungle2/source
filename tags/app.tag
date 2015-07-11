@@ -1,19 +1,26 @@
 <app>
-    <menu show={ this.getView() == 'menu' } entries={ this.menu.points } />
+    <menu show={ this.getView() == 'menu' } entries={ this.menu.menuEntries } />
     <map show={ this.getView() == 'map' } />
     <content show={ this.getView() == 'content' } />
     <script>
     var views = ['content', 'map', 'menu'];
     var currentView = 2;
-    var viewHistory = [];
+    var viewHistory = [2];
 
     window.ent = this;
 
     this.menu = {
-        points: [
-            { name: 'test1', text: 'Test1', show: true },
-            { name: 'test2', text: 'Test1', show: true },
-            { name: 'test3', text: 'Test3', show: true },
+        menuEntries: [
+            { name: 'test1', text: 'Inhalt', show: true, action: (function() {
+                    this.setView('content');
+                    console.log("Content called");
+            }).bind(this) },
+            { name: 'test2', text: 'Map', show: true, action: (function() {
+                    this.setView('map');
+            }).bind(this) },
+            { name: 'test3', text: 'Zurück', show: true, action: (function() {
+                    this.goBack();
+            }).bind(this) },
         ],
     };
 
