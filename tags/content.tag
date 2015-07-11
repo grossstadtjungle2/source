@@ -1,10 +1,10 @@
-<content-view>
+<content>
     <question
         if={ this.currentView == 'question' }
         question={ this.getCurrent().question }
         text={ this.getCurrent().questiontext }
         title={ this.getCurrent().title } />
-    <answere \>
+    <answer \>
     <hint \>
 
     <script>
@@ -49,4 +49,4 @@
     };
 
     </script>
-</content-view>
+</content>

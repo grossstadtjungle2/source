@@ -1,27 +1,45 @@
 <app>
-	<div id="top-bar">
-        <div id="menu-click">
-            <div id="menu-icon">Menu</div>
-            </div>
-            Großstadtjungle<span class="quadrat">2</span>
-        </div>
-        <div id="dynamic-cont">
-            <content-view />
-            <map-view />
-        </div>
-        <div id="interaction-bar" class="hide">
-            <div class="back back2map button-double">Zurück zur Karte</div>
-            <div id="showTip" class="button-double">Tipp anzeigen</div>
-        </div>
-    </div>
-	<menu points={ this.menu.points } />
-	<map-view />
-	<content-view />
-	<script>
-	this.menu.points = [
-		{ name: 'test1', text: 'Test1', show: true },
-		{ name: 'test2', text: 'Test1', show: true },
-		{ name: 'test3', text: 'Test3', show: true },
-	];
-	</script>
+    <menu show={ this.getView() == 'menu' } entries={ this.menu.points } />
+    <map show={ this.getView() == 'map' } />
+    <content show={ this.getView() == 'content' } />
+    <script>
+    var views = ['content', 'map', 'menu'];
+    var currentView = 2;
+    var viewHistory = [];
+
+    window.ent = this;
+
+    this.menu = {
+        points: [
+            { name: 'test1', text: 'Test1', show: true },
+            { name: 'test2', text: 'Test1', show: true },
+            { name: 'test3', text: 'Test3', show: true },
+        ],
+    };
+
+    this.getView = function() {
+        return views[currentView];
+    };
+
+    this.setView = function( view ) {
+        var viewId = views.indexOf( view.toLowerCase() );
+        if (  viewId >= 0 ) {
+            viewHistory.push(currentView);
+            currentView = viewId;
+            this.update();
+            return true;
+        }
+        return false;
+    };
+
+    this.goBack = function() {
+        var lastView = viewHistory.pop();
+        if( lastView ) {
+            currentView = lastView;
+            this.update();
+            return true;
+        }
+        return false;
+    };
+    </script>
 </app>
