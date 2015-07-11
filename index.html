@@ -10,32 +10,7 @@
         <title>Karte</title>
     </head>
     <body>
-        <menu />
-        <div id="app-frame">
-            <div id="top-bar">
-                <div id="menu-click">
-                    <div id="menu-icon">Menu</div>
-                </div>
-                Großstadtjungle<span class="quadrat">2</span>
-            </div>
-            <div id="dynamic-cont">
-                <content-view />
-                <map-view />
-            </div>
-            <div id="interaction-bar" class="hide">
-                <div class="back back2map button-double">Zurück zur Karte</div>
-                <div id="showTip" class="button-double">Tipp anzeigen</div>
-            </div>
-            <div id="popup">
-                <p></p>
-                <div class="button-double">Abbrechen</div>
-                <div class="button-double"></div>
-            </div>
-        </div>
-        
-        
-        
-        
+        <app />
         <script type="text/javascript" src="cordova.js"></script>
         <script src="lib/jquery/jquery.js" type="text/javascript"></script>
         <script src="lib/leaflet/leaflet.js" type="text/javascript"></script>
@@ -43,9 +18,9 @@
         <script src="js/data.js" type="text/javascript"></script>
         <script src="js/map.js" type="text/javascript"></script>
         <script src="js/app.js" type="text/javascript"></script>
-        
-        <script type="text/javascript">
-            riot.
+        <script src="lib/riot/riot.js"></script>
+        <script>
+        riot.mount('app');
         </script>
     </body>
 </html>

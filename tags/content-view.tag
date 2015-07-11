@@ -8,14 +8,20 @@
     <hint \>
 
     <script>
-    var i;
-    var self = this;
     var views = ['question', 'answere', 'hint', 'more'];
+
+    var updateData = (function updateData( item ) {
+        this.question = item.question;
+        this.title = item.title;
+        this.text = item.text;
+
+        this.update();
+    }).bind(this);
 
     Object.defineProperty(this, 'currentView', {
         set: function( value ) {
             if ( views.indexOf( value ) < 0 ) {
-                throw new Error('Unknown view ' + value ' for currentView.');
+                throw new Error('Unknown view ' + value + ' for currentView.');
             }
             return value;
         }
@@ -30,27 +36,17 @@
         }
     });
 
-    this.questions = opt.questions;
+    this.questions = this.opts.questions;
 
-    display( id ) {
+    this.display = function( id ) {
         if (this.questions.length < id) {
             return false;
         }
+    };
 
-    }
-
-    getCurrent() {
+    this.getCurrent = function() {
         return this.questions[ this.currentItem ];
-    }
-
-    function updateData( item ) {
-        self.question = item.question;
-        self.title = item.title;
-        self.text = item.text;
-
-
-        self.update();
-    }
+    };
 
     </script>
 </content-view>

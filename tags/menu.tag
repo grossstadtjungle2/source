@@ -23,5 +23,9 @@
 	this.hide = function( name ) {
 		getPoint( name ).show = false;
 	};
+
+	this.on('test', function() {
+		console.log('hi');
+	});
 	</script>
 </menu>
