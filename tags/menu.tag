@@ -4,25 +4,24 @@
 	</div>
 
 	<script>
-	this.points = opts.points;
-	var _this = this;
-	
-	show( name ) {
-		getPoint( name ).show = true;
-	}
+	this.points = this.opts.points;
 
-	hide( name ) {
-		getPoint( name ).show = false;
-	}
-
-	function getPoint( name ) {
+	var getPoint = (function( name ) {
 		var i;
-		for ( i = 0; i < _this.points.length; ++i ) {
-			if ( this.points[i].text = name ) {
-				return _this.points[i];
+		for ( i = 0; i < this.points.length; ++i ) {
+			if ( this.points[i].text === name ) {
+				return this.points[i];
 			}
 		}
 		throw new Error('Unregistered menu point ' + name + '.');
-	}
+	}).bind(this);
+	
+	this.show = function( name ) {
+		getPoint( name ).show = true;
+	};
+
+	this.hide = function( name ) {
+		getPoint( name ).show = false;
+	};
 	</script>
 </menu>
