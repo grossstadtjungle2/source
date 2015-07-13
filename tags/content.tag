@@ -1,51 +1,56 @@
 <content>
     <question
-        if={ this.currentView == 'question' }
+        if={ this.getView() == 'question' }
         question={ this.getCurrent().question }
-        text={ this.getCurrent().questiontext }
+        text={ this.getCurrent().text }
         title={ this.getCurrent().title } />
     <answer \>
     <hint \>
 
     <script>
     var views = ['question', 'answere', 'hint', 'more'];
+    var currentView = 0;
+    var viewHistory = [ 0 ];
 
-    var updateData = (function updateData( item ) {
-        this.question = item.question;
-        this.title = item.title;
-        this.text = item.text;
+    this.getView = function() {
+        return views[currentView];
+    };
 
-        this.update();
-    }).bind(this);
-
-    Object.defineProperty(this, 'currentView', {
-        set: function( value ) {
-            if ( views.indexOf( value ) < 0 ) {
-                throw new Error('Unknown view ' + value + ' for currentView.');
-            }
-            return value;
+    this.setView = function( view ) {
+        var viewId = views.indexOf( view.toLowerCase() );
+        if (  viewId >= 0 ) {
+            viewHistory.push(currentView);
+            currentView = viewId;
+            this.update();
+            return true;
         }
-    });
+        return false;
+    };
 
-    Object.defineProperty(this, 'currentItem', {
-        set: function( value ) {
-            if ( value > this.questions.length ) {
-                throw new Error('There is no question with id ' + value + '.');
-            }
-            return value;
+    this.goBack = function() {
+        var lastView = viewHistory.pop();
+        if( lastView ) {
+            currentView = lastView;
+            this.update();
+            return true;
         }
-    });
+        return false;
+    };
 
     this.questions = this.opts.questions;
+    var currentQuestion = 0;
 
     this.display = function( id ) {
-        if (this.questions.length < id) {
+        if (id >= this.questions.length) {
             return false;
         }
+        currentQuestion = id;
+        this.update();
+        return true;
     };
 
     this.getCurrent = function() {
-        return this.questions[ this.currentItem ];
+        return this.questions[ currentQuestion ];
     };
 
     </script>

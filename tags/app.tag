@@ -1,13 +1,13 @@
 <app>
     <menu show={ this.getView() == 'menu' } entries={ this.menu.menuEntries } />
     <map show={ this.getView() == 'map' } />
-    <content show={ this.getView() == 'content' } />
+    <content
+        show={ this.getView() == 'content' }
+        questions={ this.questions } />
     <script>
     var views = ['content', 'map', 'menu'];
-    var currentView = 2;
-    var viewHistory = [2];
-
-    window.ent = this;
+    var currentView = 0;
+    var viewHistory = [0];
 
     this.menu = {
         menuEntries: [
@@ -23,6 +23,8 @@
             }).bind(this) },
         ],
     };
+
+    this.questions = this.opts.questions;
 
     this.getView = function() {
         return views[currentView];

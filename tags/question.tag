@@ -1,7 +1,7 @@
 <question>
-    <h1>{ title }</h1>
-    <p>{ text }</p>
-    <p>{ question }</p>
+    <h1>{ this.opts.title }</h1>
+    <p>{ this.opts.text }</p>
+    <p>{ this.opts.question }</p>
     <input type="text" />
-    <button value="Antworten" onclick={ parent.answere } />
+    <button onclick={ parent.answere } >Antworten</button>
 </question>
