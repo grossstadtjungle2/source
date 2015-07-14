@@ -5,7 +5,7 @@
         text={ this.getCurrent().text }
         title={ this.getCurrent().title } />
     <answer \>
-    <hint \>
+    <hint text={ this.getCurrent().hint } \>
 
     <script>
     var views = ['question', 'answere', 'hint', 'more'];
