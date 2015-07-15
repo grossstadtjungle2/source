@@ -3,14 +3,22 @@
         if={ this.getView() == 'question' }
         question={ this.getCurrent().question }
         text={ this.getCurrent().text }
-        title={ this.getCurrent().title } />
-    <answer \>
-    <hint text={ this.getCurrent().hint } \>
+        title={ this.getCurrent().title }
+        ansfn={ this.makeAnswer } />
+    <answer 
+        if={ this.getView() == 'answer'}
+        answers={ this.getCurrent().answers }
+        success={ this.anscorrect }
+        more={ this.getCurrent().info } \>
+    <hint
+        text={ this.getCurrent().hint } \>
 
     <script>
-    var views = ['question', 'answere', 'hint', 'more'];
+    var views = ['question', 'answer', 'hint', 'more'];
     var currentView = 0;
     var viewHistory = [ 0 ];
+
+    this.anscorrect = false;
 
     this.getView = function() {
         return views[currentView];
@@ -52,6 +60,16 @@
     this.getCurrent = function() {
         return this.questions[ currentQuestion ];
     };
+
+    this.makeAnswer = function( input ) {
+        if (this.getCurrent().answers.indexOf(input.toString()) >= 0) {
+            this.setView('answer');
+            this.anscorrect = true;
+            this.update();
+        } else {
+            this.anscorrect = false;
+        }
+    }.bind(this);
 
     </script>
 </content>

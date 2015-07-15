@@ -1,23 +1,25 @@
-var new_data = {
+var newData = {
     "id": 192737642765,
     "name": "Grossstadtjungle2",
     "lang": "de",
     "title": "Mannheimer Innenstadt",
     "info": "Eine kleine Tour durch die Mannheimer Innenstadt",
     "modified": 0, // Timestamp
-    "points": {
-        0: {
+    "points": [
+        {
             "id": 0,
-            "coords": {"lat": 49.487412, "lng": 8.467297},
+            "coords": {
+                "lat": 49.487412,
+                "lng": 8.467297
+            },
             "title": "P2 - Das Mahnmal",
             "intro": "Bei den Mannheimer Planken, der zentralen Einkaufsstraße Mannheims, wurde für jüdische Opfer des Nationalsozialismus ein Mahnmal errichtet. Auf diesem wurden in Spiegelschrift mehr als 2200 Opfer eingraviert.",
             "question": "Wie viele Seiten des Mahnmals sind beschrieben?",
-            "answeres": ["4", "6", "3"],
-            "solution": 0,
+            "answers": ["4", "vier"],
             "info": "Der Kubus, der vom Bildhauer Jochen Kitzbihler angefertigt wurde, ist schräg zum Paradeplatz ausgerichtet und weist eine Kantenlänge von insgesamt 3 Metern auf. Er wurde am 25. November 2003 eingeweiht.",
             "nextid": 1
         }
-    }
+    ]
 }
 
 var tour_data = {
