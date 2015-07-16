@@ -10,14 +10,17 @@
         <title>Karte</title>
     </head>
     <body>
+        <div id="top-bar">Großstadtjungle<span class="quadrat">2</span></div>
         <app />
         <script src="cordova.js"></script>
         <script src="lib/velocity/velocity.js"></script>
         <script src="lib/leaflet/leaflet.js"></script>
         <script src="lib/leaflet/leaflet-src.js"></script>
+        <script src="lib/leaflet/leaflet-google.js"></script>
         <script src="lib/riot/riot.js"></script>
         <script src="tags/tags.js"></script>
         <script src="js/data.js"></script>
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
         <script>
         var app = riot.mount('app', {
             questions: [
