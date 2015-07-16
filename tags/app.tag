@@ -24,7 +24,7 @@
         ],
     };
 
-    this.questions = this.opts.questions;
+    this.questions = this.opts.points;
 
     this.getView = function() {
         return views[currentView];
