@@ -2,6 +2,8 @@
     <div id="map_canvas"></div>
     
     <script>
+        /* global L */
+        
         navigator.geolocation.getCurrentPosition(onSuccess);
         
         function onSuccess(position) {

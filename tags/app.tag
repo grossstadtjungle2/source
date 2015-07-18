@@ -5,8 +5,10 @@
         show={ this.getView() == 'content' }
         questions={ this.questions } />
     <script>
+    /* global opts */
+    
     var views = ['content', 'map', 'menu'];
-    var currentView = 0;
+    var currentView = 1;
     var viewHistory = [0];
 
     this.menu = {
@@ -18,7 +20,7 @@
             { name: 'test2', text: 'Map', show: true, action: (function() {
                     this.setView('map');
             }).bind(this) },
-            { name: 'test3', text: 'Zurück', show: true, action: (function() {
+            { name: 'test3', text: 'Zurï¿½ck', show: true, action: (function() {
                     this.goBack();
             }).bind(this) },
         ],
