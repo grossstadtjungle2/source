@@ -8,7 +8,7 @@
     /* global opts */
     
     var views = ['content', 'map', 'menu'];
-    var currentView = 1;
+    var currentView = 0;
     var viewHistory = [0];
 
     this.menu = {

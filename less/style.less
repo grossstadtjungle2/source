@@ -2,6 +2,9 @@
     Created on : 18.07.2015, 10:04:24
     Author     : marco
 */
+html {
+    height: 100%;
+}
 
 body {
     height: 100%;
@@ -14,11 +17,10 @@ body {
     
     /* Topbar */
     #top-bar {
-        position: relative;
-        top: 0;
+        position: absolute;
         left: 0;
         right: 0;
-        height: 8%;
+        height: 29px;
         background: #f0f0f0;
         border-bottom: solid 1px #ccc;
         text-align: center;
@@ -40,7 +42,12 @@ body {
     }
     
     app {
-        
+        position: absolute;
+        top: 40px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
         /* Content */
         content {
             font-size: inherit;
@@ -75,14 +82,16 @@ body {
         }
 
         /* Map */
-        map {
-            height: 100%;
                 
-            #map_canvas{
+            map{
                 position: relative;
+                display: block;
                 width: 100%;
                 height: 100%;
-            }
+                
+                .leaflet-control-attribution {
+                    display: none;
+                }
         }
     }
 }
